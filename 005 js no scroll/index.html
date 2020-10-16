@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang = "ja">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+
+	<h1>スマホでのスクロール抑制</h1>
+
+	スマホやタブレットで指でドラッグしても画面が動かない
+
+	<script>
+	document.addEventListener('touchmove', function(e) {e.preventDefault();}, {passive: false});
+	</script>
+</body>
+</html>

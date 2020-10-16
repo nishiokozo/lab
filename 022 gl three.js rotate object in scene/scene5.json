@@ -1,0 +1,81 @@
+{
+	"metadata": {
+		"version": 4.4,
+		"type": "Object",
+		"generator": "Object3D.toJSON"
+	},
+	"geometries": [
+		{
+			"uuid": "A116DC58-D784-4224-90CA-0B89805C3AEA",
+			"type": "TorusKnotBufferGeometry",
+			"radius": 2,
+			"tube": 0.8,
+			"tubularSegments": 128,
+			"radialSegments": 24,
+			"p": 2,
+			"q": 3
+		}],
+	"materials": [
+		{
+			"uuid": "74C7E4C6-950F-462C-87CA-565D16A217CD",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"emissive": 0
+		}],
+	"object": {
+		"uuid": "69382078-3D4E-4C5C-9F70-A66381702060",
+		"type": "Scene",
+		"name": "Scene",
+		"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+		"children": [
+			{
+				"uuid": "1825A04E-1883-4765-943A-17478F13DA84",
+				"type": "Mesh",
+				"name": "TorusKnot 1",
+				"castShadow": true,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0.300359308719635,0.022003673017024994,0,1],
+				"geometry": "A116DC58-D784-4224-90CA-0B89805C3AEA",
+				"material": "74C7E4C6-950F-462C-87CA-565D16A217CD"
+			},
+			{
+				"uuid": "3C48896B-3951-4CCB-9563-E1CCEDC6133D",
+				"type": "PointLight",
+				"name": "PointLight 1",
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,4.673067092895508,4.344956398010254,0,1],
+				"color": 16777215,
+				"intensity": 1,
+				"distance": 0,
+				"decay": 1
+			},
+			{
+				"uuid": "410AD695-F288-466A-8155-F002DA33D947",
+				"type": "PointLight",
+				"name": "PointLight 1",
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-5.098374843597412,6.010978698730469,6.0575151443481445,1],
+				"color": 15283298,
+				"intensity": 1,
+				"distance": 0,
+				"decay": 1
+			},
+			{
+				"uuid": "49A3EF05-1ED5-435D-BA80-CAE6275CB431",
+				"type": "PointLight",
+				"name": "PointLight 2",
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,-10.330011367797852,0,1],
+				"color": 4221172,
+				"intensity": 1,
+				"distance": 0,
+				"decay": 1
+			},
+			{
+				"uuid": "9C0BDE7B-7261-45E1-A38A-E721EE9C250E",
+				"type": "PointLight",
+				"name": "PointLight 4",
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,5.574901580810547,0,-11.319129943847656,1],
+				"color": 9239810,
+				"intensity": 1,
+				"distance": 0,
+				"decay": 1
+			}]
+	}
+}
