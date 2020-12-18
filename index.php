@@ -6,7 +6,7 @@
 		<style>
 			h1 
 			{
-				font-size: 42px;
+				font-size: 24px;
 				color:#cccccc
 			}
 		</style>
@@ -16,7 +16,7 @@
 			h2 
 			{
 				font-family: 'Noto Serif JP', serif;
-			font-size: 22px;
+				font-size: 16px;
 			}
 		</style>
 	</head>

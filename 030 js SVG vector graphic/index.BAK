@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<body align=center>
+		<h3>js SVG ベクターグラフィック<H3>
+		<svg  width="384" height="256" >
+			<rect x="0" y="0" width="10%" height="10%" fill="#c80000" />
+			<circle id="myCircle" r="80" cx="160" cy="100" />
+ <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
+		</svg>
+		<script src="main.js"></script>
+	</body>
+</html>
