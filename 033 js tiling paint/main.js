@@ -6,7 +6,6 @@ g_context.imageSmoothingEnabled = g_context.msImageSmoothingEnabled = 0; // ในใ
 
 
 
-
 //-----------------------------------------------------------------------------
 gra.cls = function( col )
 //-----------------------------------------------------------------------------
@@ -41,7 +40,32 @@ gra.pset = function( ox, oy, col )
 	gra.data[ adr +3 ] = 255;
 }
 
+//-----------------------------------------------------------------------------
+let rad = function( deg )
+//-----------------------------------------------------------------------------
+{
+	return deg*Math.PI/180;
+}
 
+//-----------------------------------------------------------------------------
+gra.circle = function( x,y,r,col, scx=2, scy=1 )
+//-----------------------------------------------------------------------------
+{
+
+	{
+		let st = rad(1);
+		let x0,y0;
+		for (  let i = 0 ; i <= Math.PI*2 ; i+=st  )
+		{
+			let x1 = r * Math.cos(i)*scx + x;
+			let y1 = r * Math.sin(i)*scy + y;
+
+			if ( i > 0 ) gra.line( x0, y0, x1, y1, col );
+			x0 = x1;
+			y0 = y1;
+		}
+	}
+}
 
 //-----------------------------------------------------------------------------
 gra.line = function(  x1, y1, x2, y2, col ) 
@@ -299,9 +323,9 @@ gra.cls( 0xffffff );
 
 
 {
-	let sx = 200;
+	let sx = 200+200;
 	let sy =  50;
-	let ex = 400;
+	let ex = 400+200;
 	let ey = 150;
 	gra.line( sx,sy,ex,sy,0xff0000 );
 	gra.line( sx,ey,ex,ey,0xff0000 );
@@ -322,6 +346,13 @@ gra.cls( 0xffffff );
 		gra.paint( (sx+ex)/2, (sy+ey)/2, colsPat,[0xff0000,0xffff00] );
 	}
 
+	{
+		let col = [[0x00ff00,0x000000],[0x000000,0x00ff00]];
+		let x = 180;
+		let y = 100;	
+		gra.circle(x,y,80,0xff0000,2,1);
+		gra.paint(x,y,col,[0xff0000]);
+	}
 }
 
 
