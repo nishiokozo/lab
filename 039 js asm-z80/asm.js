@@ -23,216 +23,217 @@
 	[
 		 [new RegExp(	"^ASDFGHJKERTYUIO"+"$"),0]
 
-		,[new RegExp(	"^LD "		+"SP"				+","+"HL"				+"$"),33]	//33	LD SP,HL
-		,[new RegExp(	"^LD "		+r					+","+r					+"$"),1]	//1		LD r,`r
-		,[new RegExp(	"^LD "		+r					+","+n					+"$"),2]	//2		LD r,n
-		,[new RegExp(	"^LD "		+r					+","+_hl_				+"$"),3]	//3		LD r,(HL)
-		,[new RegExp(	"^LD "		+r					+","+"\\(IX"+d+"\\)"	+"$"),4]	//4		LD r,(IX+d)
-		,[new RegExp(	"^LD "		+r					+","+"\\(IY"+d+"\\)"	+"$"),5]	//5		LD r,(IY+d)
-		,[new RegExp(	"^LD "		+_hl_				+","+r					+"$"),6]	//6		LD (HL),r
-		,[new RegExp(	"^LD "		+"\\(IX"+d+"\\)"	+","+r					+"$"),7]	//7		LD (IX+d),r
-		,[new RegExp(	"^LD "		+"\\(IY"+d+"\\)"	+","+r					+"$"),8]	//8		LD (IY+d),r
-		,[new RegExp(	"^LD "		+_hl_				+","+n					+"$"),9]	//9		LD (HL),n
-		,[new RegExp(	"^LD "		+"\\(IX"+d+"\\)"	+","+n					+"$"),10]	//10	LD (IX+d),n
-		,[new RegExp(	"^LD "		+"\\(IY"+d+"\\)"	+","+n	 	 			+"$"),11]	//11	LD (IY+d),n
-		,[new RegExp(	"^LD "		+"A"				+","+"\\(BC\\)"			+"$"),12]	//12	LD A,(BC)
-		,[new RegExp(	"^LD "		+"A"				+","+"\\(DE\\)"			+"$"),13]	//13	LD A,(DE)
-		,[new RegExp(	"^LD "		+"A"				+","+_nn_				+"$"),14]	//14	LD A,(nn)
-		,[new RegExp(	"^LD "		+"\\(BC\\)"			+","+"A"				+"$"),15]	//15	LD (BC),A
-		,[new RegExp(	"^LD "		+"\\(DE\\)"			+","+"A"				+"$"),16]	//16	LD (DE),A
-		,[new RegExp(	"^LD "		+_nn_				+","+"A"				+"$"),17]	//17	LD (nn),A
-		,[new RegExp(	"^LD "		+"A"				+","+"I"				+"$"),18]	//18	LD A,I
-		,[new RegExp(	"^LD "		+"A"				+","+"R"				+"$"),19]	//19	LD A,R
-		,[new RegExp(	"^LD "		+"I"				+","+"A"				+"$"),20]	//20	LD I,A
-		,[new RegExp(	"^LD "		+"R"				+","+"A"				+"$"),21]	//21	LD R,A
-		,[new RegExp(	"^LD "		+dd					+","+nn					+"$"),22]	//22	LD dd,nn
-		,[new RegExp(	"^LD "		+"IX"				+","+nn					+"$"),23]	//23	LD IX,nn
-		,[new RegExp(	"^LD "		+"IY"				+","+nn					+"$"),24]	//24	LD IY,nn
-		,[new RegExp(	"^LD "		+"HL"				+","+_nn_				+"$"),25]	//25	LD HL,(nn)
-		,[new RegExp(	"^LD "		+dd					+","+_nn_				+"$"),26]	//26	LD dd,(nn)
-		,[new RegExp(	"^LD "		+"IX"				+","+_nn_				+"$"),27]	//27	LD IX,(nn)
-		,[new RegExp(	"^LD "		+"IY"				+","+_nn_				+"$"),28]	//28	LD IY,(nn)
-		,[new RegExp(	"^LD "		+_nn_				+","+"HL"				+"$"),29]	//29	LD (nn),HL
-		,[new RegExp(	"^LD "		+_nn_				+","+dd					+"$"),30]	//30	LD (nn)dd
-		,[new RegExp(	"^LD "		+_nn_				+","+"IX"				+"$"),31]	//31	LD (nn),IX
-		,[new RegExp(	"^LD "		+_nn_				+","+"IY"				+"$"),32]	//32	LD (nn),IY
-		,[new RegExp(	"^LD "		+"SP"				+","+"IX"				+"$"),34]	//34	LD SP,IX
-		,[new RegExp(	"^LD "		+"SP"				+","+"IY"				+"$"),35]	//35	LD SP,IY
-		,[new RegExp(	"^PUSH "	+qq											+"$"),36]	//36	PUSH qq
-		,[new RegExp(	"^PUSH "	+"IX"										+"$"),37]	//37	PUSH IX
-		,[new RegExp(	"^PUSH "	+"IY"										+"$"),38]	//38	PUSH IY
-		,[new RegExp(	"^POP "		+qq											+"$"),39]	//39	POP qq
-		,[new RegExp(	"^POP "		+"IX"										+"$"),40]	//40	POP IX
-		,[new RegExp(	"^POP "		+"IY"										+"$"),41]	//41	POP IY
-		,[new RegExp(	"^EX "		+"DE"				+","+"HL"				+"$"),42]	//42	EX DE,HL
-		,[new RegExp(	"^EX "		+"AF"				+","+"AF'"				+"$"),43]	//43	EX AF,AF'
-		,[new RegExp(	"^EXX"													+"$"),44]	//44	EXX
-		,[new RegExp(	"^EX "		+"\\(SP\\)"			+","+"HL"				+"$"),45]	//45	EX (SP),HL
-		,[new RegExp(	"^EX "		+"\\(SP\\)"			+","+"IX"				+"$"),46]	//46	EX (SP),IX
-		,[new RegExp(	"^EX "		+"\\(SP\\)"			+","+"IY"				+"$"),47]	//47	EX (SP),IY
-		,[new RegExp(	"^LDI"													+"$"),48]	//48	LDI
-		,[new RegExp(	"^LDIR"													+"$"),49]	//49	LDIR
-		,[new RegExp(	"^LDD"													+"$"),50]	//50	LDD
-		,[new RegExp(	"^LDDR"													+"$"),51]	//51	LDDR
-		,[new RegExp(	"^CPI"													+"$"),52]	//52	CPI
-		,[new RegExp(	"^CPIR"													+"$"),53]	//53	CPIR
-		,[new RegExp(	"^CPD"													+"$"),54]	//54	CPD
-		,[new RegExp(	"^CPDR"													+"$"),55]	//55	CPDR
-		,[new RegExp(	"^ADD "		+"A"				+","+r					+"$"),56]	//56	ADD A,r
-		,[new RegExp(	"^ADD "		+"A"				+","+n					+"$"),57]	//57	ADD A,n
-		,[new RegExp(	"^ADD "		+"A"				+","+_hl_				+"$"),58]	//58	ADD A,(HL)
-		,[new RegExp(	"^ADD "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),59]	//59	ADD A,(IX+d)
-		,[new RegExp(	"^ADD "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),60]	//60	ADD A,(IY+d)
-		,[new RegExp(	"^ADC "		+"A"				+","+r					+"$"),61]	//61	ADC A,r
-		,[new RegExp(	"^ADC "		+"A"				+","+n					+"$"),62]	//62	ADC A,n
-		,[new RegExp(	"^ADC "		+"A"				+","+_hl_				+"$"),63]	//63	ADC A,(HL)
-		,[new RegExp(	"^ADC "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),64]	//64	ADC A,(IX+d)
-		,[new RegExp(	"^ADC "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),65]	//65	ADC A,(IY+d)
-		,[new RegExp(	"^SUB "		+r											+"$"),66]	//66	SUB r
-		,[new RegExp(	"^SUB "		+n											+"$"),67]	//67	SUB n
-		,[new RegExp(	"^SUB "		+_hl_										+"$"),68]	//68	SUB (HL)
-		,[new RegExp(	"^SUB "		+"\\(IX"+d+"\\)"							+"$"),69]	//69	SUB (IX+d)
-		,[new RegExp(	"^SUB "		+"\\(IY"+d+"\\)"							+"$"),70]	//70	SUB (IY+d)
-//		,[new RegExp(	"^SUB "		+"A"				+r						+"$"),66]	//66	SUB A,r			疑似
-//		,[new RegExp(	"^SUB "		+"A"				+n						+"$"),67]	//67	SUB A,n			疑似
-//		,[new RegExp(	"^SUB "		+"A"				+_hl_					+"$"),68]	//68	SUB A,(HL)		疑似
-//		,[new RegExp(	"^SUB "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),69]	//69	SUB A,(IX+d)	疑似
-//		,[new RegExp(	"^SUB "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),70]	//70	SUB A,(IY+d)	疑似
-		,[new RegExp(	"^SBC "		+"A"				+","+r					+"$"),71]	//71	SBC A,r
-		,[new RegExp(	"^SBC "		+"A"				+","+n					+"$"),72]	//72	SBC A,n
-		,[new RegExp(	"^SBC "		+"A"				+","+_hl_				+"$"),73]	//73	SBC A,(HL)
-		,[new RegExp(	"^SBC "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),74]	//74	SBC A,(IX+d)
-		,[new RegExp(	"^SBC "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),75]	//75	SBC A,(IY+d)
-		,[new RegExp(	"^AND "		+r											+"$"),76]	//76	AND r
-		,[new RegExp(	"^AND "		+n											+"$"),77]	//77	AND n
-		,[new RegExp(	"^AND "		+_hl_										+"$"),78]	//78	AND (HL)
-		,[new RegExp(	"^AND "		+"\\(IX"+d+"\\)"							+"$"),79]	//79	AND (IX+d)
-		,[new RegExp(	"^AND "		+"\\(IY"+d+"\\)"							+"$"),80]	//80	AND (IY+d)
-		,[new RegExp(	"^OR "		+r											+"$"),81]	//81	OR r
-		,[new RegExp(	"^OR "		+n											+"$"),82]	//82	OR n
-		,[new RegExp(	"^OR "		+_hl_										+"$"),83]	//83	OR (HL)
-		,[new RegExp(	"^OR "		+"\\(IX"+d+"\\)"							+"$"),84]	//84	OR (IX+d)
-		,[new RegExp(	"^OR "		+"\\(IY"+d+"\\)"							+"$"),85]	//85	OR (IY+d)
-		,[new RegExp(	"^XOR "		+r											+"$"),86]	//86	XOR r
-		,[new RegExp(	"^XOR "		+n											+"$"),87]	//87	XOR n
-		,[new RegExp(	"^XOR "		+_hl_										+"$"),88]	//88	XOR (HL)
-		,[new RegExp(	"^XOR "		+"\\(IX"+d+"\\)"							+"$"),89]	//89	XOR (IX+d)
-		,[new RegExp(	"^XOR "		+"\\(IY"+d+"\\)"							+"$"),90]	//90	XOR (IY+d)
-		,[new RegExp(	"^CP "		+r											+"$"),91]	//91	CP r
-		,[new RegExp(	"^CP "		+n											+"$"),92]	//92	CP n
-		,[new RegExp(	"^CP "		+_hl_										+"$"),93]	//93	CP (HL)
-		,[new RegExp(	"^CP "		+"\\(IX"+d+"\\)"							+"$"),94]	//94	CP (IX+d)
-		,[new RegExp(	"^CP "		+"\\(IY"+d+"\\)"							+"$"),95]	//95	CP (IY+d)
-		,[new RegExp(	"^INC "		+r											+"$"),96]	//96	INC r
-		,[new RegExp(	"^INC "		+_hl_										+"$"),97]	//97	INC (HL)
-		,[new RegExp(	"^INC "		+"\\(IX"+d+"\\)"							+"$"),98]	//98	INC (IX+d)
-		,[new RegExp(	"^INC "		+"\\(IY"+d+"\\)"							+"$"),99]	//99	INC (IY+d)
-		,[new RegExp(	"^DEC "		+r											+"$"),100]	//100	DEC r
-		,[new RegExp(	"^DEC "		+_hl_										+"$"),101]	//101	DEC (HL)
-		,[new RegExp(	"^DEC "		+"\\(IX"+d+"\\)"							+"$"),102]	//102	DEC (IX+d)
-		,[new RegExp(	"^DEC "		+"\\(IY"+d+"\\)"							+"$"),103]	//103	DEC (IY+d)
-		,[new RegExp(	"^DAA"													+"$"),104]	//104	DAA
-		,[new RegExp(	"^CPL"													+"$"),105]	//105	CPL
-		,[new RegExp(	"^NEG"													+"$"),106]	//106	NEG
-		,[new RegExp(	"^CCF"													+"$"),107]	//107	CCF
-		,[new RegExp(	"^SCF"													+"$"),108]	//108	SCF
-		,[new RegExp(	"^NOP"													+"$"),109]	//109	NOP
-		,[new RegExp(	"^HALT"													+"$"),110]	//110	HALT
-		,[new RegExp(	"^DI"													+"$"),111]	//111	DI
-		,[new RegExp(	"^EI"													+"$"),112]	//112	EI
-		,[new RegExp(	"^IM 0"													+"$"),113]	//113	IM 0
-		,[new RegExp(	"^IM 1"													+"$"),114]	//114	IM 1
-		,[new RegExp(	"^IM 2"													+"$"),115]	//115	IM 2
-		,[new RegExp(	"^ADD "		+"HL"				+","			+ss		+"$"),116]	//116	ADD HL,ss
-		,[new RegExp(	"^ADC "		+"HL"				+","			+ss		+"$"),117]	//117	ADC HL,ss
-		,[new RegExp(	"^SBC "		+"HL"				+","			+ss		+"$"),118]	//118	SBC HL,ss
-		,[new RegExp(	"^ADD "		+"IX"				+","			+pp		+"$"),119]	//119	ADD IX,pp
-		,[new RegExp(	"^ADD "		+"IY"				+","			+rr		+"$"),120]	//120	ADD IY,rr
-		,[new RegExp(	"^INC "		+ss											+"$"),121]	//121	INC ss
-		,[new RegExp(	"^INC "		+"IX"										+"$"),122]	//122	INC IX
-		,[new RegExp(	"^INC "		+"IY"										+"$"),123]	//123	INC IY
-		,[new RegExp(	"^DEC "		+ss											+"$"),124]	//124	DEC ss
-		,[new RegExp(	"^DEC "		+"IX"										+"$"),125]	//125	DEC IX
-		,[new RegExp(	"^DEC "		+"IY"										+"$"),126]	//126	DEC IY
-		,[new RegExp(	"^RLCA"													+"$"),127]	//127	RLCA
-		,[new RegExp(	"^RLA"													+"$"),128]	//128	RLA
-		,[new RegExp(	"^RRCA"													+"$"),129]	//129	RRCA
-		,[new RegExp(	"^RRA"													+"$"),130]	//130	RRA
-		,[new RegExp(	"^RLC "		+r											+"$"),131]	//131	RLC r
-		,[new RegExp(	"^RLC "		+_hl_										+"$"),132]	//132	RLC (HL)
-		,[new RegExp(	"^RLC "		+"\\(IX"+d+"\\)"							+"$"),133]	//133	RLC (IX+d)
-		,[new RegExp(	"^RLC "		+"\\(IY"+d+"\\)"							+"$"),134]	//134	RLC (IY+d)
-		,[new RegExp(	"^RL "		+r											+"$"),135]	//135	RL r
-		,[new RegExp(	"^RL "		+_hl_										+"$"),136]	//136	RL (HL)
-		,[new RegExp(	"^RL "		+"\\(IX"+d+"\\)"							+"$"),137]	//137	RL (IX+d)
-		,[new RegExp(	"^RL "		+"\\(IY"+d+"\\)"							+"$"),138]	//138	RL (IY+d)
-		,[new RegExp(	"^RRC "		+r											+"$"),139]	//139	RRC m
-		,[new RegExp(	"^RRC "		+_hl_										+"$"),140]	//140	RRC (HL)
-		,[new RegExp(	"^RRC "		+"\\(IX"+d+"\\)"							+"$"),141]	//141	RRC (IX+d)
-		,[new RegExp(	"^RRC "		+"\\(IY"+d+"\\)"							+"$"),142]	//142	RRC (IY+d)
-		,[new RegExp(	"^RR "		+r											+"$"),143]	//143	RR m
-		,[new RegExp(	"^RR "		+_hl_										+"$"),144]	//144	RR (HL)
-		,[new RegExp(	"^RR "		+"\\(IX"+d+"\\)"							+"$"),145]	//145	RR (IX+d)
-		,[new RegExp(	"^RR "		+"\\(IY"+d+"\\)"							+"$"),146]	//146	RR (IY+d)
-		,[new RegExp(	"^SLA "		+r											+"$"),147]	//147	SLA m
-		,[new RegExp(	"^SLA "		+_hl_										+"$"),148]	//148	SLA (HL)
-		,[new RegExp(	"^SLA "		+"\\(IX"+d+"\\)"							+"$"),149]	//149	SLA (IX+d)
-		,[new RegExp(	"^SLA "		+"\\(IY"+d+"\\)"							+"$"),150]	//150	SLA (IY+d)
-		,[new RegExp(	"^SRA "		+r											+"$"),151]	//151	SRA m
-		,[new RegExp(	"^SRA "		+_hl_										+"$"),152]	//152	SRA (HL)
-		,[new RegExp(	"^SRA "		+"\\(IX"+d+"\\)"							+"$"),153]	//153	SRA (IX+d)
-		,[new RegExp(	"^SRA "		+"\\(IY"+d+"\\)"							+"$"),154]	//154	SRA (IY+d)
-		,[new RegExp(	"^SRL "		+r											+"$"),155]	//155	SRL m
-		,[new RegExp(	"^SRL "		+_hl_										+"$"),156]	//156	SRL (HL)
-		,[new RegExp(	"^SRL "		+"\\(IX"+d+"\\)"							+"$"),157]	//157	SRL (IX+d)
-		,[new RegExp(	"^SRL "		+"\\(IY"+d+"\\)"							+"$"),158]	//158	SRL (IY+d)
-		,[new RegExp(	"^RLD"													+"$"),159]	//159	RLD
-		,[new RegExp(	"^RRD"													+"$"),160]	//160	RRD
-		,[new RegExp(	"^BIT "		+b					+","+r					+"$"),161]	//161	BIT b,r
-		,[new RegExp(	"^BIT "		+b 					+","+_hl_				+"$"),162]	//162	BIT b,(HL)
-		,[new RegExp(	"^BIT "		+b					+","+"\\(IX"+d+"\\)"	+"$"),163]	//163	BIT b,(IX+d)
-		,[new RegExp(	"^BIT "		+b					+","+"\\(IY"+d+"\\)"	+"$"),164]	//164	BIT b,(IY+d)
-		,[new RegExp(	"^SET "		+b					+","+r					+"$"),165]	//165	SET b,r
-		,[new RegExp(	"^SET "		+b 					+","+_hl_				+"$"),166]	//166	SET b,(HL)
-		,[new RegExp(	"^SET "		+b					+","+"\\(IX"+d+"\\)"	+"$"),167]	//167	SET b,(IX+d)
-		,[new RegExp(	"^SET "		+b					+","+"\\(IY"+d+"\\)"	+"$"),168]	//168	SET b,(IY+d)
-		,[new RegExp(	"^RES "		+b					+","+r					+"$"),169]	//169	RES b,r
-		,[new RegExp(	"^RES "		+b 					+","+_hl_				+"$"),170]	//170	RES b,(HL)
-		,[new RegExp(	"^RES "		+b					+","+"\\(IX"+d+"\\)"	+"$"),171]	//171	RES b,(IX+d)
-		,[new RegExp(	"^RES "		+b					+","+"\\(IY"+d+"\\)"	+"$"),172]	//172	RES b,(IY+d)
-		,[new RegExp(	"^JP "		+nn											+"$"),173]	//173	JP nn
-		,[new RegExp(	"^JP "		+cc					+","+nn					+"$"),174]	//174	JP cc,nn
-		,[new RegExp(	"^JR "		+e											+"$"),175]	//175	JR e
-		,[new RegExp(	"^JR C,"	+e											+"$"),176]	//176	JR C,e
-		,[new RegExp(	"^JR NC,"	+e											+"$"),177]	//177	JR NC,e
-		,[new RegExp(	"^JR Z,"	+e											+"$"),178]	//178	JR Z,e
-		,[new RegExp(	"^JR NZ,"	+e											+"$"),179]	//179	JR NZ,e
-		,[new RegExp(	"^JP "		+_hl_										+"$"),180]	//180	JP (HL)
-		,[new RegExp(	"^JP "		+"\\(IX\\)"									+"$"),181]	//181	JP (IX)
-		,[new RegExp(	"^JP "		+"\\(IY\\)"									+"$"),182]	//182	JP (IY)
-		,[new RegExp(	"^DJNZ "	+e											+"$"),183]	//183	DJNZ e
-		,[new RegExp(	"^CALL "	+nn											+"$"),184]	//184	CALL nn
-		,[new RegExp(	"^CALL "	+cc					+","+nn					+"$"),185]	//185	CALL cc,nn
-		,[new RegExp(	"^RET"													+"$"),186]	//186	RET
-		,[new RegExp(	"^RET "		+cc											+"$"),187]	//187	RET cc
-		,[new RegExp(	"^RETI"													+"$"),188]	//188	RETI
-		,[new RegExp(	"^RETN"													+"$"),189]	//189	RETN
-		,[new RegExp(	"^RST "		+p											+"$"),190]	//190	RST p
-		,[new RegExp(	"^IN "		+"A"				+","+_n_				+"$"),191]	//191	IN A,(n)
-		,[new RegExp(	"^IN "		+r 					+","+"\\(C\\)"			+"$"),192]	//192	IN r,(C)
-		,[new RegExp(	"^INI"													+"$"),193]	//193	INI
-		,[new RegExp(	"^INIR"													+"$"),194]	//194	INIR
-		,[new RegExp(	"^IND"													+"$"),195]	//195	IND
-		,[new RegExp(	"^INDR"													+"$"),196]	//196	INDR
-		,[new RegExp(	"^OUT "		+_n_				+","+"A"				+"$"),197]	//197	OUT (n),A
-		,[new RegExp(	"^OUT "		+"\\(C\\)"			+","		+r			+"$"),198]	//198	OUT (C),r
-		,[new RegExp(	"^OUTI"													+"$"),199]	//199	OUTI
-		,[new RegExp(	"^OTIR"													+"$"),200]	//200	OTIR
-		,[new RegExp(	"^OUTD"													+"$"),201]	//201	OUTD
-		,[new RegExp(	"^OTDR"													+"$"),202]	//202	OTDR
+		,[new RegExp(	"^RET"													+"$"),186]	//	RET
+		,[new RegExp(	"^RETI"													+"$"),188]	//	RETI
+		,[new RegExp(	"^RETN"													+"$"),189]	//	RETN
+		,[new RegExp(	"^RLD"													+"$"),159]	//	RLD
+		,[new RegExp(	"^RRD"													+"$"),160]	//	RRD
+		,[new RegExp(	"^RLCA"													+"$"),127]	//	RLCA
+		,[new RegExp(	"^RLA"													+"$"),128]	//	RLA
+		,[new RegExp(	"^RRCA"													+"$"),129]	//	RRCA
+		,[new RegExp(	"^RRA"													+"$"),130]	//	RRA
+		,[new RegExp(	"^INI"													+"$"),193]	//	INI
+		,[new RegExp(	"^INIR"													+"$"),194]	//	INIR
+		,[new RegExp(	"^IND"													+"$"),195]	//	IND
+		,[new RegExp(	"^INDR"													+"$"),196]	//	INDR
+		,[new RegExp(	"^OUTI"													+"$"),199]	//	OUTI
+		,[new RegExp(	"^OTIR"													+"$"),200]	//	OTIR
+		,[new RegExp(	"^OUTD"													+"$"),201]	//	OUTD
+		,[new RegExp(	"^OTDR"													+"$"),202]	//	OTDR
+		,[new RegExp(	"^DAA"													+"$"),104]	//	DAA
+		,[new RegExp(	"^CPL"													+"$"),105]	//	CPL
+		,[new RegExp(	"^NEG"													+"$"),106]	//	NEG
+		,[new RegExp(	"^CCF"													+"$"),107]	//	CCF
+		,[new RegExp(	"^SCF"													+"$"),108]	//	SCF
+		,[new RegExp(	"^NOP"													+"$"),109]	//	NOP
+		,[new RegExp(	"^HALT"													+"$"),110]	//	HALT
+		,[new RegExp(	"^DI"													+"$"),111]	//	DI
+		,[new RegExp(	"^EI"													+"$"),112]	//	EI
+		,[new RegExp(	"^IM 0"													+"$"),113]	//	IM 0
+		,[new RegExp(	"^IM 1"													+"$"),114]	//	IM 1
+		,[new RegExp(	"^IM 2"													+"$"),115]	//	IM 2
+		,[new RegExp(	"^LDI"													+"$"),48]	//	LDI
+		,[new RegExp(	"^LDIR"													+"$"),49]	//	LDIR
+		,[new RegExp(	"^LDD"													+"$"),50]	//	LDD
+		,[new RegExp(	"^LDDR"													+"$"),51]	//	LDDR
+		,[new RegExp(	"^CPI"													+"$"),52]	//	CPI
+		,[new RegExp(	"^CPIR"													+"$"),53]	//	CPIR
+		,[new RegExp(	"^CPD"													+"$"),54]	//	CPD
+		,[new RegExp(	"^CPDR"													+"$"),55]	//	CPDR
+		,[new RegExp(	"^PUSH "	+"IX"										+"$"),37]	//	PUSH IX
+		,[new RegExp(	"^PUSH "	+"IY"										+"$"),38]	//	PUSH IY
+		,[new RegExp(	"^POP "		+"IX"										+"$"),40]	//	POP IX
+		,[new RegExp(	"^POP "		+"IY"										+"$"),41]	//	POP IY
+		,[new RegExp(	"^EX "		+"DE"				+","+"HL"				+"$"),42]	//	EX DE,HL
+		,[new RegExp(	"^EX "		+"AF"				+","+"AF'"				+"$"),43]	//	EX AF,AF'
+		,[new RegExp(	"^EXX"													+"$"),44]	//	EXX
+		,[new RegExp(	"^EX "		+"\\(SP\\)"			+","+"HL"				+"$"),45]	//	EX (SP),HL
+		,[new RegExp(	"^EX "		+"\\(SP\\)"			+","+"IX"				+"$"),46]	//	EX (SP),IX
+		,[new RegExp(	"^EX "		+"\\(SP\\)"			+","+"IY"				+"$"),47]	//	EX (SP),IY
+		,[new RegExp(	"^LD "		+"SP"				+","+"IX"				+"$"),34]	//	LD SP,IX
+		,[new RegExp(	"^LD "		+"SP"				+","+"IY"				+"$"),35]	//	LD SP,IY
+		,[new RegExp(	"^LD "		+"SP"				+","+"HL"				+"$"),33]	//	LD SP,HL
+		,[new RegExp(	"^LD "		+"A"				+","+"I"				+"$"),18]	//	LD A,I
+		,[new RegExp(	"^LD "		+"A"				+","+"R"				+"$"),19]	//	LD A,R
+		,[new RegExp(	"^LD "		+"I"				+","+"A"				+"$"),20]	//	LD I,A
+		,[new RegExp(	"^LD "		+"R"				+","+"A"				+"$"),21]	//	LD R,A
+		,[new RegExp(	"^LD "		+r					+","+r					+"$"),1]	//		LD r,`r
+		,[new RegExp(	"^LD "		+r					+","+n					+"$"),2]	//		LD r,n
+		,[new RegExp(	"^LD "		+r					+","+_hl_				+"$"),3]	//		LD r,(HL)
+		,[new RegExp(	"^LD "		+r					+","+"\\(IX"+d+"\\)"	+"$"),4]	//		LD r,(IX+d)
+		,[new RegExp(	"^LD "		+r					+","+"\\(IY"+d+"\\)"	+"$"),5]	//		LD r,(IY+d)
+		,[new RegExp(	"^LD "		+_hl_				+","+r					+"$"),6]	//		LD (HL),r
+		,[new RegExp(	"^LD "		+"\\(IX"+d+"\\)"	+","+r					+"$"),7]	//		LD (IX+d),r
+		,[new RegExp(	"^LD "		+"\\(IY"+d+"\\)"	+","+r					+"$"),8]	//		LD (IY+d),r
+		,[new RegExp(	"^LD "		+_hl_				+","+n					+"$"),9]	//		LD (HL),n
+		,[new RegExp(	"^LD "		+"\\(IX"+d+"\\)"	+","+n					+"$"),10]	//	LD (IX+d),n
+		,[new RegExp(	"^LD "		+"\\(IY"+d+"\\)"	+","+n	 	 			+"$"),11]	//	LD (IY+d),n
+		,[new RegExp(	"^LD "		+"A"				+","+"\\(BC\\)"			+"$"),12]	//	LD A,(BC)
+		,[new RegExp(	"^LD "		+"A"				+","+"\\(DE\\)"			+"$"),13]	//	LD A,(DE)
+		,[new RegExp(	"^LD "		+"\\(BC\\)"			+","+"A"				+"$"),15]	//	LD (BC),A
+		,[new RegExp(	"^LD "		+"\\(DE\\)"			+","+"A"				+"$"),16]	//	LD (DE),A
+		,[new RegExp(	"^PUSH "	+qq											+"$"),36]	//	PUSH qq
+		,[new RegExp(	"^POP "		+qq											+"$"),39]	//	POP qq
+		,[new RegExp(	"^ADD "		+"A"				+","+r					+"$"),56]	//	ADD A,r
+		,[new RegExp(	"^ADD "		+"A"				+","+n					+"$"),57]	//	ADD A,n
+		,[new RegExp(	"^ADD "		+"A"				+","+_hl_				+"$"),58]	//	ADD A,(HL)
+		,[new RegExp(	"^ADD "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),59]	//	ADD A,(IX+d)
+		,[new RegExp(	"^ADD "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),60]	//	ADD A,(IY+d)
+		,[new RegExp(	"^ADC "		+"A"				+","+r					+"$"),61]	//	ADC A,r
+		,[new RegExp(	"^ADC "		+"A"				+","+n					+"$"),62]	//	ADC A,n
+		,[new RegExp(	"^ADC "		+"A"				+","+_hl_				+"$"),63]	//	ADC A,(HL)
+		,[new RegExp(	"^ADC "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),64]	//	ADC A,(IX+d)
+		,[new RegExp(	"^ADC "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),65]	//	ADC A,(IY+d)
+		,[new RegExp(	"^SUB "		+r											+"$"),66]	//	SUB r
+		,[new RegExp(	"^SUB "		+n											+"$"),67]	//	SUB n
+		,[new RegExp(	"^SUB "		+_hl_										+"$"),68]	//	SUB (HL)
+		,[new RegExp(	"^SUB "		+"\\(IX"+d+"\\)"							+"$"),69]	//	SUB (IX+d)
+		,[new RegExp(	"^SUB "		+"\\(IY"+d+"\\)"							+"$"),70]	//	SUB (IY+d)
+//		,[ RegExp(	"^SUB "		+"A"				+r						+"$"),66]	//	SUB A,r			疑似
+//		,[ RegExp(	"^SUB "		+"A"				+n						+"$"),67]	//	SUB A,n			疑似
+//		,[ RegExp(	"^SUB "		+"A"				+_hl_					+"$"),68]	//	SUB A,(HL)		疑似
+//		,[ RegExp(	"^SUB "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),69]	//	SUB A,(IX+d)	疑似
+//		,[ RegExp(	"^SUB "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),70]	//	SUB A,(IY+d)	疑似
+		,[new RegExp(	"^SBC "		+"A"				+","+r					+"$"),71]	//	SBC A,r
+		,[new RegExp(	"^SBC "		+"A"				+","+n					+"$"),72]	//	SBC A,n
+		,[new RegExp(	"^SBC "		+"A"				+","+_hl_				+"$"),73]	//	SBC A,(HL)
+		,[new RegExp(	"^SBC "		+"A"				+","+"\\(IX"+d+"\\)"	+"$"),74]	//	SBC A,(IX+d)
+		,[new RegExp(	"^SBC "		+"A"				+","+"\\(IY"+d+"\\)"	+"$"),75]	//	SBC A,(IY+d)
+		,[new RegExp(	"^AND "		+r											+"$"),76]	//	AND r
+		,[new RegExp(	"^AND "		+n											+"$"),77]	//	AND n
+		,[new RegExp(	"^AND "		+_hl_										+"$"),78]	//	AND (HL)
+		,[new RegExp(	"^AND "		+"\\(IX"+d+"\\)"							+"$"),79]	//	AND (IX+d)
+		,[new RegExp(	"^AND "		+"\\(IY"+d+"\\)"							+"$"),80]	//	AND (IY+d)
+		,[new RegExp(	"^OR "		+r											+"$"),81]	//	OR r
+		,[new RegExp(	"^OR "		+n											+"$"),82]	//	OR n
+		,[new RegExp(	"^OR "		+_hl_										+"$"),83]	//	OR (HL)
+		,[new RegExp(	"^OR "		+"\\(IX"+d+"\\)"							+"$"),84]	//	OR (IX+d)
+		,[new RegExp(	"^OR "		+"\\(IY"+d+"\\)"							+"$"),85]	//	OR (IY+d)
+		,[new RegExp(	"^XOR "		+r											+"$"),86]	//	XOR r
+		,[new RegExp(	"^XOR "		+n											+"$"),87]	//	XOR n
+		,[new RegExp(	"^XOR "		+_hl_										+"$"),88]	//	XOR (HL)
+		,[new RegExp(	"^XOR "		+"\\(IX"+d+"\\)"							+"$"),89]	//	XOR (IX+d)
+		,[new RegExp(	"^XOR "		+"\\(IY"+d+"\\)"							+"$"),90]	//	XOR (IY+d)
+		,[new RegExp(	"^CP "		+r											+"$"),91]	//	CP r
+		,[new RegExp(	"^CP "		+n											+"$"),92]	//	CP n
+		,[new RegExp(	"^CP "		+_hl_										+"$"),93]	//	CP (HL)
+		,[new RegExp(	"^CP "		+"\\(IX"+d+"\\)"							+"$"),94]	//	CP (IX+d)
+		,[new RegExp(	"^CP "		+"\\(IY"+d+"\\)"							+"$"),95]	//	CP (IY+d)
+		,[new RegExp(	"^INC "		+r											+"$"),96]	//	INC r
+		,[new RegExp(	"^INC "		+_hl_										+"$"),97]	//	INC (HL)
+		,[new RegExp(	"^INC "		+"\\(IX"+d+"\\)"							+"$"),98]	//	INC (IX+d)
+		,[new RegExp(	"^INC "		+"\\(IY"+d+"\\)"							+"$"),99]	//	INC (IY+d)
+		,[new RegExp(	"^DEC "		+r											+"$"),100]	//	DEC r
+		,[new RegExp(	"^DEC "		+_hl_										+"$"),101]	//	DEC (HL)
+		,[new RegExp(	"^DEC "		+"\\(IX"+d+"\\)"							+"$"),102]	//	DEC (IX+d)
+		,[new RegExp(	"^DEC "		+"\\(IY"+d+"\\)"							+"$"),103]	//	DEC (IY+d)
+		,[new RegExp(	"^ADD "		+"(HL)"				+","			+ss		+"$"),116]	//	ADD HL,ss
+		,[new RegExp(	"^ADC "		+"(HL)"				+","			+ss		+"$"),117]	//	ADC HL,ss
+		,[new RegExp(	"^SBC "		+"(HL)"				+","			+ss		+"$"),118]	//	SBC HL,ss
+		,[new RegExp(	"^ADD "		+"(IX)"				+","			+pp		+"$"),119]	//	ADD IX,pp
+		,[new RegExp(	"^ADD "		+"(IY)"				+","			+rr		+"$"),120]	//	ADD IY,rr
+		,[new RegExp(	"^INC "		+ss											+"$"),121]	//	INC ss
+		,[new RegExp(	"^INC "		+"(IX)"										+"$"),122]	//	INC IX
+		,[new RegExp(	"^INC "		+"(IY)"										+"$"),123]	//	INC IY
+		,[new RegExp(	"^DEC "		+ss											+"$"),124]	//	DEC ss
+		,[new RegExp(	"^DEC "		+"(IX)"										+"$"),125]	//	DEC IX
+		,[new RegExp(	"^DEC "		+"(IY)"										+"$"),126]	//	DEC IY
+		,[new RegExp(	"^RLC "		+r											+"$"),131]	//	RLC r
+		,[new RegExp(	"^RLC "		+_hl_										+"$"),132]	//	RLC (HL)
+		,[new RegExp(	"^RLC "		+"\\(IX"+d+"\\)"							+"$"),133]	//	RLC (IX+d)
+		,[new RegExp(	"^RLC "		+"\\(IY"+d+"\\)"							+"$"),134]	//	RLC (IY+d)
+		,[new RegExp(	"^RL "		+r											+"$"),135]	//	RL r
+		,[new RegExp(	"^RL "		+_hl_										+"$"),136]	//	RL (HL)
+		,[new RegExp(	"^RL "		+"\\(IX"+d+"\\)"							+"$"),137]	//	RL (IX+d)
+		,[new RegExp(	"^RL "		+"\\(IY"+d+"\\)"							+"$"),138]	//	RL (IY+d)
+		,[new RegExp(	"^RRC "		+r											+"$"),139]	//	RRC m
+		,[new RegExp(	"^RRC "		+_hl_										+"$"),140]	//	RRC (HL)
+		,[new RegExp(	"^RRC "		+"\\(IX"+d+"\\)"							+"$"),141]	//	RRC (IX+d)
+		,[new RegExp(	"^RRC "		+"\\(IY"+d+"\\)"							+"$"),142]	//	RRC (IY+d)
+		,[new RegExp(	"^RR "		+r											+"$"),143]	//	RR m
+		,[new RegExp(	"^RR "		+_hl_										+"$"),144]	//	RR (HL)
+		,[new RegExp(	"^RR "		+"\\(IX"+d+"\\)"							+"$"),145]	//	RR (IX+d)
+		,[new RegExp(	"^RR "		+"\\(IY"+d+"\\)"							+"$"),146]	//	RR (IY+d)
+		,[new RegExp(	"^SLA "		+r											+"$"),147]	//	SLA m
+		,[new RegExp(	"^SLA "		+_hl_										+"$"),148]	//	SLA (HL)
+		,[new RegExp(	"^SLA "		+"\\(IX"+d+"\\)"							+"$"),149]	//	SLA (IX+d)
+		,[new RegExp(	"^SLA "		+"\\(IY"+d+"\\)"							+"$"),150]	//	SLA (IY+d)
+		,[new RegExp(	"^SRA "		+r											+"$"),151]	//	SRA m
+		,[new RegExp(	"^SRA "		+_hl_										+"$"),152]	//	SRA (HL)
+		,[new RegExp(	"^SRA "		+"\\(IX"+d+"\\)"							+"$"),153]	//	SRA (IX+d)
+		,[new RegExp(	"^SRA "		+"\\(IY"+d+"\\)"							+"$"),154]	//	SRA (IY+d)
+		,[new RegExp(	"^SRL "		+r											+"$"),155]	//	SRL m
+		,[new RegExp(	"^SRL "		+_hl_										+"$"),156]	//	SRL (HL)
+		,[new RegExp(	"^SRL "		+"\\(IX"+d+"\\)"							+"$"),157]	//	SRL (IX+d)
+		,[new RegExp(	"^SRL "		+"\\(IY"+d+"\\)"							+"$"),158]	//	SRL (IY+d)
+		,[new RegExp(	"^BIT "		+b					+","+r					+"$"),161]	//	BIT b,r
+		,[new RegExp(	"^BIT "		+b 					+","+_hl_				+"$"),162]	//	BIT b,(HL)
+		,[new RegExp(	"^BIT "		+b					+","+"\\(IX"+d+"\\)"	+"$"),163]	//	BIT b,(IX+d)
+		,[new RegExp(	"^BIT "		+b					+","+"\\(IY"+d+"\\)"	+"$"),164]	//	BIT b,(IY+d)
+		,[new RegExp(	"^SET "		+b					+","+r					+"$"),165]	//	SET b,r
+		,[new RegExp(	"^SET "		+b 					+","+_hl_				+"$"),166]	//	SET b,(HL)
+		,[new RegExp(	"^SET "		+b					+","+"\\(IX"+d+"\\)"	+"$"),167]	//	SET b,(IX+d)
+		,[new RegExp(	"^SET "		+b					+","+"\\(IY"+d+"\\)"	+"$"),168]	//	SET b,(IY+d)
+		,[new RegExp(	"^RES "		+b					+","+r					+"$"),169]	//	RES b,r
+		,[new RegExp(	"^RES "		+b 					+","+_hl_				+"$"),170]	//	RES b,(HL)
+		,[new RegExp(	"^RES "		+b					+","+"\\(IX"+d+"\\)"	+"$"),171]	//	RES b,(IX+d)
+		,[new RegExp(	"^RES "		+b					+","+"\\(IY"+d+"\\)"	+"$"),172]	//	RES b,(IY+d)
+		,[new RegExp(	"^JR "		+e											+"$"),175]	//	JR e
+		,[new RegExp(	"^JR C,"	+e											+"$"),176]	//	JR C,e
+		,[new RegExp(	"^JR NC,"	+e											+"$"),177]	//	JR NC,e
+		,[new RegExp(	"^JR Z,"	+e											+"$"),178]	//	JR Z,e
+		,[new RegExp(	"^JR NZ,"	+e											+"$"),179]	//	JR NZ,e
+		,[new RegExp(	"^JP "		+_hl_										+"$"),180]	//	JP (HL)
+		,[new RegExp(	"^JP "		+"\\(IX\\)"									+"$"),181]	//	JP (IX)
+		,[new RegExp(	"^JP "		+"\\(IY\\)"									+"$"),182]	//	JP (IY)
+		,[new RegExp(	"^DJNZ "	+e											+"$"),183]	//	DJNZ e
+		,[new RegExp(	"^RET "		+cc											+"$"),187]	//	RET cc
+		,[new RegExp(	"^RST "		+p											+"$"),190]	//	RST p
+		,[new RegExp(	"^IN "		+r 					+","+"\\(C\\)"			+"$"),192]	//	IN r,(C)
+		,[new RegExp(	"^IN "		+"A"				+","+_n_				+"$"),191]	//	IN A,(n)
+		,[new RegExp(	"^OUT "		+"(\\(C\\))"		+","		+r			+"$"),198]	//	OUT (C),r
+		,[new RegExp(	"^OUT "		+_n_				+","+"A"				+"$"),197]	//	OUT (n),A
+		,[new RegExp(	"^LD "		+"A"				+","+_nn_				+"$"),14]	//	LD A,(nn)
+		,[new RegExp(	"^LD "		+"IX"				+","+nn					+"$"),23]	//	LD IX,nn
+		,[new RegExp(	"^LD "		+"IY"				+","+nn					+"$"),24]	//	LD IY,nn
+		,[new RegExp(	"^LD "		+"HL"				+","+_nn_				+"$"),25]	//	LD HL,(nn)
+		,[new RegExp(	"^LD "		+"IX"				+","+_nn_				+"$"),27]	//	LD IX,(nn)
+		,[new RegExp(	"^LD "		+"IY"				+","+_nn_				+"$"),28]	//	LD IY,(nn)
+		,[new RegExp(	"^LD "		+dd					+","+nn					+"$"),22]	//	LD dd,nn
+		,[new RegExp(	"^LD "		+dd					+","+_nn_				+"$"),26]	//	LD dd,(nn)
+		,[new RegExp(	"^LD "		+_nn_				+","+"A"				+"$"),17]	//	LD (nn),A
+		,[new RegExp(	"^LD "		+_nn_				+","+"HL"				+"$"),29]	//	LD (nn),HL
+		,[new RegExp(	"^LD "		+_nn_				+","+dd					+"$"),30]	//	LD (nn)dd
+		,[new RegExp(	"^LD "		+_nn_				+","+"IX"				+"$"),31]	//	LD (nn),IX
+		,[new RegExp(	"^LD "		+_nn_				+","+"IY"				+"$"),32]	//	LD (nn),IY
+		,[new RegExp(	"^JP "		+nn											+"$"),173]	//	JP nn
+		,[new RegExp(	"^JP "		+cc					+","+nn					+"$"),174]	//	JP cc,nn
+		,[new RegExp(	"^CALL "	+nn											+"$"),184]	//	CALL nn
+		,[new RegExp(	"^CALL "	+cc					+","+nn					+"$"),185]	//	CALL cc,nn
 
-		,[new RegExp(	"^"		+Symbol											+"$"),203]	//203	ADDRESS:
-		,[new RegExp(	"^"		+Symbol+ " EQU " + n							+"$"),204]	//204	ADDRESS:
+		,[new RegExp(	"^"		+Symbol											+"$"),203]	//	ADDRESS:
+		,[new RegExp(	"^"		+Symbol+ " EQU " + n							+"$"),204]	//	n EQU n
+		,[new RegExp(	"^"		+"ORG " + n										+"$"),205]	//	ORG n
 
 
 
@@ -323,7 +324,8 @@
 	var	g_cntAddress;
 	var	g_tblCode;
 	var	g_cntErr;
-
+	let g_outputmode = 1;
+	let g_tblCmdHex = [];
 	//--------------------------------------------------------------------------
 	Number.prototype.toHex=function(culms)
 	//--------------------------------------------------------------------------
@@ -361,6 +363,12 @@
 	{
 		document.getElementById("dst").value += v+"\n";
 	}
+	//--------------------------------------------------------------------------
+	function dumpErr(  v )
+	//--------------------------------------------------------------------------
+	{
+		if ( g_flgAssemble ) document.getElementById("dst").value += "Err:"+v+"\n";
+	}
 
 	//--------------------------------------------------------------------------
 	function cnvLabels2Dec( v )
@@ -385,20 +393,38 @@
 
 			//ラベル変換
 			var n=g_tblLabelcode[v];
-			if ( n!=undefined ) v=n;
-			v *= sign;
+			if ( n==undefined ) 
+			{
+//console.log( "aaa "+v,g_tblLabelcode);
+				if ( /[0-9A-F].+/.exec(v) ) 
+				{	// ラベルになければ数字として扱う
+//					v=n;
+				}
+				else
+				{
+					dumpErr("Undefined Label name:"+ v);
+				}
+//					v=n;
+			}
+			else
+			{
+				// ラベルを数値に変換
+				v=n;
+			}
+//console.log("<>>",v,n,g_tblLabelcode);
 
 			//HEX to DEC 変換
 			if ( !v.isDigit() )
 			{
 				if ( v.toString().slice(-1).toUpperCase()=="H" ) v=parseInt(v.substr(0,v.length-1),16);
 			}
-			v=v*1;	// 数値化
+			v *= sign;
+//			v=v*1;	// 数値化
 		}
 
 		if ( !v.isDigit() )
 		{
-			dump( "Error3("+v+")("+g_cntAddress +")" );
+			dump( "Error("+v+")" );
 			g_cntErr++;
 			v=0;
 		}
@@ -421,6 +447,8 @@
 	function assemble(a) 
 	//--------------------------------------------------------------------------
 	{
+			assemble_main();
+/*
 		if (window.File) 
 		{
 			assemble_main();
@@ -429,6 +457,7 @@
 		} else {
 		  window.alert("本ブラウザではFile APIが使えません");
 		}
+*/
 	}
 	//--------------------------------------------------------------------------
 	function dumpNormal() 
@@ -437,9 +466,11 @@
 			var x=0;
 			var	len=g_cntAddress;
 			var	cnt=0;
+			let ofs = g_tblLabelcode["ORG"];
+
 			while(len)
 			{
-				document.getElementById("dst").value += cnt.toHex(4)+" ";
+				document.getElementById("dst").value += (cnt+ofs).toHex(4)+" ";
 				var x=16;
 				while(x&&len)
 				{
@@ -459,13 +490,14 @@
 		var x=0;
 		var	len=g_tblCode.length;//g_cntAddress;
 		var	cnt=0;
-		var	maxLine=0x10;
+		let ofs = g_tblLabelcode["ORG"];
+		var	width=0x10;
 		var	spc="";
 		while(len>0)
 		{
-			if ( len>maxLine )
+			if ( len>width )
 			{
-				x=maxLine;
+				x=width;
 			}
 			else
 			{
@@ -473,10 +505,10 @@
 			}
 			document.getElementById("dst").value += ":";
 			document.getElementById("dst").value += x.toHex(2)+spc;
-			document.getElementById("dst").value += cnt.toHex(4)+spc;
+			document.getElementById("dst").value += (cnt+ofs).toHex(4)+spc;
 			document.getElementById("dst").value += "00"+spc;
 			
-			var sum=x + ((cnt>>8)&0xff) + (cnt&0xff);
+			var sum=x + (((cnt+ofs)>>8)&0xff) + ((cnt+ofs)&0xff);
 
 			while(x>0 && len>0)
 			{
@@ -484,7 +516,7 @@
 				if ( v==undefined )
 				{
 					v=0;
-					document.getElementById("dst").value += " err.7("+cnt+")";
+					document.getElementById("dst").value += " err.7("+(cnt+ofs)+")";
 				}
 				sum+=v;
 				document.getElementById("dst").value += v.toHex(2)+spc;
@@ -507,14 +539,15 @@
 		g_tblLabelcode=new Array();
 		g_tblCode=new Array();
 		g_cntErr=0;
-
+		g_tblCmdHex = [];
+		g_tblLabelcode["ORG"]=0;
 		document.getElementById("dst").value="";
 
 		//	ラベルテーブルの作成
 		g_flgAssemble=false;
 		analisys();
 
-
+/*
 		if ( g_cntErr>0 )
 		{
 			//ラベルの表示
@@ -522,27 +555,37 @@
 			//ダンプルの表示
 			dumpNormal();
 		}
+*/
 			
 		//	アセンブル
 		g_flgAssemble=true;
 		analisys();
 
 
-		if ( g_cntErr==0 )
+//		if ( g_cntErr==0 )
 		{
 
-			dumpIntelHex();
-
-			if(1)	// デバッグ用16進数出力
+			if ( g_outputmode == 1 )	// IntelHel出力
 			{
-				document.getElementById("dst").value += "--\n";
+				dumpIntelHex();
+			}
+			if ( g_outputmode == 2 )	// デバッグ用16進数出力
+			{
+//				document.getElementById("dst").value += "--\n";
 				dumpNormal();
 			}
-			
-			if(0)	// デバッグ用ラベル値出力
+			if ( g_outputmode == 2 )	//  デバッグ用ラベル値出力
 			{
-				document.getElementById("dst").value += "--\n";
+//				document.getElementById("dst").value += "--\n";
 				for ( var key in g_tblLabelcode )	dump( key + ":" +g_tblLabelcode[key] );	
+			}
+			if ( g_outputmode == 4 )	// デバッグ用コマンドHEX出力
+			{
+//				document.getElementById("dst").value += "--\n";
+				for ( var v of g_tblCmdHex )
+				{
+					document.getElementById("dst").value += v;
+				}
 			}
 		}
 	}
@@ -565,6 +608,7 @@
 			str=str.replace(/[ |\t]+,[ |\t]+/g, ","); //,前後トリム
 			str=str.toUpperCase();					//大文字化
 			if ( str.length == 0 ) continue;		//空行削除
+
 			//	DEFB擬似命令
 			if ( str.substr(0,4)=="DEFB" ) 
 			{
@@ -586,6 +630,7 @@
 				OK:2,
 			};
 
+			let stCmdHex = g_tblCode.length;
 			var valFind=Find.None;
 //			var	p=0;
 //			for ( p ; p<tblOpc.length ; p++ )
@@ -596,12 +641,13 @@
 				if ( tbl!=null )
 				{
 
-					var	o1=tbl[1];
-					var	o2=tbl[2];
-					var	o3=tbl[3];
+					var	o1=tbl[1];	if ( o1 != undefined ) o1 = o1.toUpperCase();
+					var	o2=tbl[2];	if ( o2 != undefined ) o2 = o2.toUpperCase();
+					var	o3=tbl[3];	if ( o3 != undefined ) o3 = o3.toUpperCase();
 //console.log(str,tbl,p);
-//console.log( opc[1] );
+//if ( g_flgAssemble ) console.log( ">",opc[1] );
 //					switch(p)
+
 					switch(opc[1])
 					{
 					case 1://ld r,r
@@ -630,7 +676,7 @@
 						valFind=Find.OK;
 						break;
 					case 6:	//ld (HL),r
-						write_hex1( 0b01110000|(g_r[o1]) );
+						write_hex1( 0b01110000|(g_r[o2]) );
 						valFind=Find.OK;
 						break;
 					case 7:	//ld (IX+d),r
@@ -645,9 +691,9 @@
 						write_hex1( o1 );
 						valFind=Find.OK;
 						break;
-					case 9:	//ld (hl),n
+					case 9:	//ld (HL),n
 						write_hex1( 0x36 );
-						write_hex1( o1 );
+						write_hex1( o2 );
 						valFind=Find.OK;
 						break;
 					case 10:	//ld (ix+d),n
@@ -675,6 +721,7 @@
 					case 14:	//	LD A,(nn)
 						write_hex1( 0x3a);
 						o1=cnvLabels2Dec(o1);
+//if ( g_flgAssemble ) console.log("::",o1);
 						write_hex1( (o1   )&0xff );
 						write_hex1( (o1>>8)&0xff );
 						valFind=Find.OK;
@@ -770,6 +817,7 @@
 						valFind=Find.OK;
 						break;
 					case 29:	//	LD (nn),HL
+//console.log(o1,o2)
 						write_hex1( 0x22 );
 						o1=cnvLabels2Dec(o1);
 						write_hex1( (o1   )&0xff );
@@ -778,10 +826,10 @@
 						break;
 					case 30:	//	LD (nn),dd
 						write_hex1( 0xED );
-						write_hex1( 0b01000011|g_dd[o1]<<4 );
-						o2=cnvLabels2Dec(o2);
-						write_hex1( (o2   )&0xff );
-						write_hex1( (o2>>8)&0xff );
+						write_hex1( 0b01000011|g_dd[o2]<<4 );
+						o1=cnvLabels2Dec(o1);
+						write_hex1( (o1   )&0xff );
+						write_hex1( (o1>>8)&0xff );
 						valFind=Find.OK;
 						break;
 					case 31:	//	LD (nn),IX
@@ -1201,27 +1249,28 @@
 						valFind=Find.OK;
 						break;
 					case 116:	//	ADD HL,ss
-						write_hex1( 0b00001001|(g_ss[o1]<<4) );
+						write_hex1( 0b00001001|(g_ss[o2]<<4) );
 						valFind=Find.OK;
 						break;
 					case 117:	//	ADC HL,ss
+//console.log( o1, o2 );
 						write_hex1( 0xED );
-						write_hex1( 0b01001010|(g_ss[o1]<<4) );
+						write_hex1( 0b01001010|(g_ss[o2]<<4) );
 						valFind=Find.OK;
 						break;
 					case 118:	//	SBC HL,ss
 						write_hex1( 0xED );
-						write_hex1( 0b01000010|(g_ss[o1]<<4) );
+						write_hex1( 0b01000010|(g_ss[o2]<<4) );
 						valFind=Find.OK;
 						break;
 					case 119:	//	ADD IX,pp
 						write_hex1( 0xDD );
-						write_hex1( 0b00001001|(g_pp[o1]<<4) );
+						write_hex1( 0b00001001|(g_pp[o2]<<4) );
 						valFind=Find.OK;
 						break;
 					case 120:	//	ADD IY,rr
 						write_hex1( 0xFD );
-						write_hex1( 0b00001001|(g_rr[o1]<<4) );
+						write_hex1( 0b00001001|(g_rr[o2]<<4) );
 						valFind=Find.OK;
 						break;
 					case 121:	//	INC ss
@@ -1270,6 +1319,7 @@
 						break;
 					case 131:	//	RLC r
 						write_hex1( 0xCB );
+						write_hex1( g_r[o1] );
 						valFind=Find.OK;
 						break;
 					case 132:	//	RLC (HL)
@@ -1341,7 +1391,7 @@
 						break;
 					case 143:	//	RR r							//??	RR r
 						write_hex1( 0xCB );
-						write_hex1( 0b00001000|(g_r[o1]<<0) );
+						write_hex1( 0b00011000|(g_r[o1]<<0) );
 						valFind=Find.OK;
 						break;
 					case 144:	//	RR (HL)
@@ -1389,7 +1439,7 @@
 						break;
 					case 151:	//	SRA r							//??	SRA	r
 						write_hex1( 0xCB );
-						write_hex1( 0b00100000|(g_r[o1]<<0) );
+						write_hex1( 0b00101000|(g_r[o1]<<0) );
 						valFind=Find.OK;
 						break;
 					case 152:	//	SRA (HL)
@@ -1447,76 +1497,74 @@
 						break;
 					case 161:	//	BIT b,r
 						write_hex1( 0xCB );
-						write_hex1( 0x40|g_r[o2] );
-						write_hex1( o1 );
+						write_hex1( 0x40|(o1<<3)|g_r[o2] );
 						valFind=Find.OK;
 						break;
 					case 162:	//	BIT b,(HL)
 						write_hex1( 0xCB );
-						write_hex1( 0x40|g_r[o2] );
-						write_hex1( o1 );
+						write_hex1( 0x46|(o1<<3)|g_r[o2] );
 						valFind=Find.OK;
 						break;
 					case 163:	//	BIT b,(IX+d)
 						write_hex1( 0xDD );
 						write_hex1( 0xCB );
 						write_hex1( o2 );
-						write_hex1( 0b01000110|(g_b[o1]<<3) );
+						write_hex1( 0b01000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 164:	//	BIT b,(IY+d)
 						write_hex1( 0xFD );
 						write_hex1( 0xCB );
 						write_hex1( o2 );
-						write_hex1( 0b01000110|(g_b[o1]<<3) );
+						write_hex1( 0b01000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 165:	//	SET b,r
 						write_hex1( 0xCB );
-						write_hex1( 0b11000000|(g_b[o1]<<3)|g_b[o2] );
+						write_hex1( 0b11000000|(o1<<3)|g_r[o2] );
 						valFind=Find.OK;
 						break;
 					case 166:	//	SET b,(HL)
 						write_hex1( 0xCB );
-						write_hex1( 0b11000110|(g_b[o1]<<3) );
+						write_hex1( 0b11000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 167:	//	SET b,(IX+d)
 						write_hex1( 0xDD );
 						write_hex1( 0xCB );
 						write_hex1( o2 );
-						write_hex1( 0b11000110|(g_b[o1]<<3) );
+						write_hex1( 0b11000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 168:	//	SET b,(IY+d)
 						write_hex1( 0xFD );
 						write_hex1( 0xCB );
 						write_hex1( o2 );
-						write_hex1( 0b11000110|(g_b[o1]<<3) );
+						write_hex1( 0b11000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 169:	//	RES b,r
 						write_hex1( 0xCB );
-						write_hex1( 0b10000000|(g_b[o1]<<3)|g_b[o2] );
+						write_hex1( 0b10000000|(o1<<3)|g_r[o2] );
 						valFind=Find.OK;
 						break;
 					case 170:	//	RES b,(HL)
 						write_hex1( 0xCB );
-						write_hex1( 0b10000110|(g_b[o1]<<3) );
+						write_hex1( 0b10000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 171:	//	RES b,(IX+d)
 						write_hex1( 0xDD );
 						write_hex1( 0xCB );
 						write_hex1( o2 );
-						write_hex1( 0b10000110|(g_b[o1]<<3) );
+						write_hex1( 0b10000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 172:	//	RES b,(IY+d)
 						write_hex1( 0xFD );
 						write_hex1( 0xCB );
 						write_hex1( o2 );
-						write_hex1( 0b10000110|(g_b[o1]<<3) );
+						write_hex1( 0b10000110|(o1<<3) );
 						valFind=Find.OK;
 						break;
 					case 173:	//	JP nn
@@ -1636,7 +1684,7 @@
 						valFind=Find.OK;
 						break;
 					case 192:	//	IN r,(C)
-						write_hex1( 0xEB );
+						write_hex1( 0xED );
 						write_hex1( 0b01000000|(g_r[o1]<<3) );
 						valFind=Find.OK;
 						break;
@@ -1667,7 +1715,7 @@
 						break;
 					case 198:	//	OUT (C),r
 						write_hex1( 0xED );
-						write_hex1( 0b01000000|(g_r[o1]<<3) );
+						write_hex1( 0b01000001|(g_r[o2]<<3) );
 						valFind=Find.OK;
 						break;
 					case 199:	//	OUTI
@@ -1701,11 +1749,47 @@
 						g_tblLabelcode[o1]=o2;
 						valFind=Find.OK;
 						break;
+
+					case 205://EQU
+						o1 = cnvLabels2Dec(o1);
+						g_tblLabelcode["ORG"]=o1;
+						valFind=Find.OK;
+						break;
+/*
+					case 206://DEFB
+						o1 = cnvLabels2Dec(o1);
+						g_tblLabelcode["ORG"]=o1;
+						valFind=Find.OK;
+						break;
+*/
+
 					}
 
 					break;
 				}
 			}
+
+			if ( g_flgAssemble ) // コマンドとHEXの比較出力。デバッグ用
+			{
+//console.log( str );
+				let strcmd = "";
+				let ofs = g_tblLabelcode["ORG"];
+					strcmd += (stCmdHex+ofs).toHex(4)+" ";
+				for ( let i = 0 ; i < 4 ; i++ )
+				{
+					if ( i < g_tblCode.length-stCmdHex )
+					{
+						strcmd += g_tblCode[ stCmdHex+i ].toHex(2) + " ";
+					}
+					else
+					{
+						strcmd += "   ";
+					}
+//console.log( strcmd );
+				}
+					g_tblCmdHex.push( strcmd + " "+str+"\n");
+			}
+			
 			if ( g_flgAssemble )
 			{
 				if ( valFind==Find.UDLabel ) 
@@ -1725,3 +1809,48 @@
 
     }
     
+//HTMLとのやり取り関連
+//-----------------------------------------------------------------------------
+function html_radio_click()
+//-----------------------------------------------------------------------------
+{
+	var list = document.getElementsByName( "html_radio" ) ;
+
+	for ( let i = 0 ; i < list.length; i++ ) 
+	{
+		if ( list[i].checked ) 
+		{
+			g_outputmode = list[i].value;
+			break;
+		}
+	}
+}
+//-----------------------------------------------------------------------------
+window.onload = function()
+//-----------------------------------------------------------------------------
+{
+	html_radio_click();
+//	g_outputmode = 4;
+	if ( 1)
+	{
+		document.getElementById("src").value ="; Z80 smaple\n";
+		document.getElementById("src").value +="	ORG 0100h"+"\n";
+		document.getElementById("src").value +="	jp main:"+"\n";
+		document.getElementById("src").value +="	DEFB 1,2,3"+"\n";
+		document.getElementById("src").value +="	nop"+"\n";
+		document.getElementById("src").value +=""+"\n";
+		document.getElementById("src").value +="val	EQU	1"+"\n";
+		document.getElementById("src").value +="	DEFB ffh"+"\n";
+		document.getElementById("src").value +="main:"+"\n";
+		document.getElementById("src").value +="	ld a,val"+"\n";
+		document.getElementById("src").value +="	ld a,(label)"+"\n";
+		document.getElementById("src").value +="	ld a,(2)"+"\n";
+		document.getElementById("src").value +="	ld a,(3h)"+"\n";
+		document.getElementById("src").value +="	jp main"+"\n";
+		document.getElementById("src").value +="label:"+"\n";
+	}
+
+
+	assemble(1);
+	
+}
