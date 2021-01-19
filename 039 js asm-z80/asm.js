@@ -395,31 +395,26 @@
 			var n=g_tblLabelcode[v];
 			if ( n==undefined ) 
 			{
-//console.log( "aaa "+v,g_tblLabelcode);
 				if ( /[0-9A-F].+/.exec(v) ) 
 				{	// ラベルになければ数字として扱う
-//					v=n;
 				}
 				else
 				{
 					dumpErr("Undefined Label name:"+ v);
 				}
-//					v=n;
 			}
 			else
 			{
 				// ラベルを数値に変換
 				v=n;
 			}
-//console.log("<>>",v,n,g_tblLabelcode);
 
 			//HEX to DEC 変換
 			if ( !v.isDigit() )
 			{
 				if ( v.toString().slice(-1).toUpperCase()=="H" ) v=parseInt(v.substr(0,v.length-1),16);
 			}
-			v *= sign;
-//			v=v*1;	// 数値化
+			v *= sign;	// 数値化でもある
 		}
 
 		if ( !v.isDigit() )
@@ -447,7 +442,7 @@
 	function assemble(a) 
 	//--------------------------------------------------------------------------
 	{
-			assemble_main();
+		assemble_main();
 /*
 		if (window.File) 
 		{
@@ -547,22 +542,10 @@
 		g_flgAssemble=false;
 		analisys();
 
-/*
-		if ( g_cntErr>0 )
-		{
-			//ラベルの表示
-			for ( var key in g_tblLabelcode )	dump( key + ":" +g_tblLabelcode[key] );
-			//ダンプルの表示
-			dumpNormal();
-		}
-*/
-			
 		//	アセンブル
 		g_flgAssemble=true;
 		analisys();
 
-
-//		if ( g_cntErr==0 )
 		{
 
 			if ( g_outputmode == 1 )	// IntelHel出力
@@ -571,17 +554,15 @@
 			}
 			if ( g_outputmode == 2 )	// デバッグ用16進数出力
 			{
-//				document.getElementById("dst").value += "--\n";
 				dumpNormal();
 			}
 			if ( g_outputmode == 2 )	//  デバッグ用ラベル値出力
 			{
-//				document.getElementById("dst").value += "--\n";
+				document.getElementById("dst").value += "--\n";
 				for ( var key in g_tblLabelcode )	dump( key + ":" +g_tblLabelcode[key] );	
 			}
 			if ( g_outputmode == 4 )	// デバッグ用コマンドHEX出力
 			{
-//				document.getElementById("dst").value += "--\n";
 				for ( var v of g_tblCmdHex )
 				{
 					document.getElementById("dst").value += v;
@@ -609,6 +590,8 @@
 			str=str.toUpperCase();					//大文字化
 			if ( str.length == 0 ) continue;		//空行削除
 
+			let stCmdHex = g_tblCode.length;
+
 			//	DEFB擬似命令
 			if ( str.substr(0,4)=="DEFB" ) 
 			{
@@ -620,1174 +603,1188 @@
 
 					write_hex1( d );
 				}
-				continue;
+			//	continue;
 			}
-
-			var	Find=
+			else
 			{
-				None:0,
-				UDLabel:1,	//	Undefined Label
-				OK:2,
-			};
 
-			let stCmdHex = g_tblCode.length;
-			var valFind=Find.None;
-//			var	p=0;
-//			for ( p ; p<tblOpc.length ; p++ )
-			for ( let opc of tblOpc )
-			{
-//				var tbl=str.match( tblOpc[p][0] );
-				var tbl=str.match( opc[0] );
-				if ( tbl!=null )
+				var	Find=
 				{
+					None:0,
+					UDLabel:1,	//	Undefined Label
+					OK:2,
+				};
 
-					var	o1=tbl[1];	if ( o1 != undefined ) o1 = o1.toUpperCase();
-					var	o2=tbl[2];	if ( o2 != undefined ) o2 = o2.toUpperCase();
-					var	o3=tbl[3];	if ( o3 != undefined ) o3 = o3.toUpperCase();
-//console.log(str,tbl,p);
-//if ( g_flgAssemble ) console.log( ">",opc[1] );
-//					switch(p)
-
-					switch(opc[1])
+				var valFind=Find.None;
+	//			var	p=0;
+	//			for ( p ; p<tblOpc.length ; p++ )
+				for ( let opc of tblOpc )
+				{
+	//				var tbl=str.match( tblOpc[p][0] );
+					var tbl=str.match( opc[0] );
+					if ( tbl!=null )
 					{
-					case 1://ld r,r
-						write_hex1( 0b01000000|(g_r[o1]<<3)|(g_r[o2]) );
-						valFind=Find.OK;
-						break;
-					case 2:	//ld r,n
-						write_hex1( 0b00000110|(g_r[o1]<<3) );
-						write_hex1( o2 );
-						valFind=Find.OK;
-						break;
-					case 3:	//ld r,(HL)
-						write_hex1( 0b01000110|(g_r[o1]<<3) );
-						valFind=Find.OK;
-						break;
-					case 4:	//ld r,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0b01000110|(g_r[o1]<<3) );
-						write_hex1( o2 );
-						valFind=Find.OK;
-						break;
-					case 5:	//ld r,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0b01000110|(g_r[o1]<<3) );
-						write_hex1( o2 );
-						valFind=Find.OK;
-						break;
-					case 6:	//ld (HL),r
-						write_hex1( 0b01110000|(g_r[o2]) );
-						valFind=Find.OK;
-						break;
-					case 7:	//ld (IX+d),r
-						write_hex1( 0xDD );
-						write_hex1( 0b01110000|(g_r[o2]) );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 8:	//ld (IY+d),r
-						write_hex1( 0xFD );
-						write_hex1( 0b01110000|(g_r[o2]) );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 9:	//ld (HL),n
-						write_hex1( 0x36 );
-						write_hex1( o2 );
-						valFind=Find.OK;
-						break;
-					case 10:	//ld (ix+d),n
-						write_hex1( 0xDD );
-						write_hex1( 0x36 );
-						write_hex1( o1 );
-						write_hex1( o2 );
-						valFind=Find.OK;
-						break;
-					case 11:	//ld (iy+d),n
-						write_hex1( 0xFD );
-						write_hex1( 0x36 );
-						write_hex1( o1 );
-						write_hex1( o2 );
-						valFind=Find.OK;
-						break;
-					case 12:	//ld a,(bc)
-						write_hex1( 0x0a );
-						valFind=Find.OK;
-						break;
-					case 13:	//	LD A,(DE)
-						write_hex1( 0x1a );
-						valFind=Find.OK;
-						break;
-					case 14:	//	LD A,(nn)
-						write_hex1( 0x3a);
-						o1=cnvLabels2Dec(o1);
-//if ( g_flgAssemble ) console.log("::",o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 15:	//	LD (BC),A
-						write_hex1( 0x02 );
-						valFind=Find.OK;
-						break;
-					case 16:	//	LD (DE),A
-						write_hex1( 0x12 );
-						valFind=Find.OK;
-						break;
-					case 17:	//	LD (nn),A
-						write_hex1( 0x32 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 18:	//	LD A,I
-						write_hex1( 0xed );
-						write_hex1( 0x57 );
-						valFind=Find.OK;
-						break;
-					case 19:	//	LD A,R
-						write_hex1( 0xed );
-						write_hex1( 0x5f );
-						valFind=Find.OK;
-						break;
-					case 20:	//	LD I,A
-						write_hex1( 0xed );
-						write_hex1( 0x47 );
-						valFind=Find.OK;
-						break;
-					case 21:	//	LD R,A
-						write_hex1( 0xed );
-						write_hex1( 0x4f );
-						valFind=Find.OK;
-						break;
-					case 22:	//	LD dd,nn
-						write_hex1( 0b00000001|g_dd[o1]<<4 );
-//console.log(o2);
-						o2=cnvLabels2Dec(o2);
-						write_hex1( (o2   )&0xff );
-						write_hex1( (o2>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 23:	//	LD IX,nn
-						write_hex1( 0xDD );
-						write_hex1( 0x21 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 24:	//	LD IY,nn
-						write_hex1( 0xFD );
-						write_hex1( 0x21 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 25:	//	LD HL,(nn)
-						write_hex1( 0x2A );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 26:	//	LD dd,(nn)
-						write_hex1( 0xED );
-						write_hex1( 0b01001011|g_dd[o1]<<4 );
-						o2=cnvLabels2Dec(o2);
-						write_hex1( (o2   )&0xff );
-						write_hex1( (o2>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 27:	//	LD IX,(nn)
-						write_hex1( 0xDD );
-						write_hex1( 0x2A );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 28:	//	LD IY,(nn)
-						write_hex1( 0xFD );
-						write_hex1( 0x2A );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 29:	//	LD (nn),HL
-//console.log(o1,o2)
-						write_hex1( 0x22 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 30:	//	LD (nn),dd
-						write_hex1( 0xED );
-						write_hex1( 0b01000011|g_dd[o2]<<4 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 31:	//	LD (nn),IX
-						write_hex1( 0xDD );
-						write_hex1( 0x22 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 32:	//	LD (nn),IY
-						write_hex1( 0xFD );
-						write_hex1( 0x22 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 33:	//	LD SP,HL
-						write_hex1( 0xF9 );
-						valFind=Find.OK;
-						break;
-					case 34:	//	LD SP,IX
-						write_hex1( 0xDD );
-						write_hex1( 0xF9 );
-						valFind=Find.OK;
-						break;
-					case 35:	//	LD SP,IY
-						write_hex1( 0xFD );
-						write_hex1( 0xF9 );
-						valFind=Find.OK;
-						break;
-					case 36:	//	PUSH qq
-						write_hex1( 0b11000101|g_qq[o1]<<4 );
-						valFind=Find.OK;
-						break;
-					case 37:	//	PUSH IX
-						write_hex1( 0xDD );
-						write_hex1( 0xE5 );
-						valFind=Find.OK;
-						break;
-					case 38:	//	PUSH IY
-						write_hex1( 0xFD );
-						write_hex1( 0xE5 );
-						valFind=Find.OK;
-						break;
-					case 39:	//	POP qq
-						write_hex1( 0b11000001|g_qq[o1]<<4 );
-						valFind=Find.OK;
-						break;
-					case 40:	//	POP IX
-						write_hex1( 0xDD );
-						write_hex1( 0xE1 );
-						valFind=Find.OK;
-						break;
-					case 41:	//	POP IY
-						write_hex1( 0xFD );
-						write_hex1( 0xE1 );
-						valFind=Find.OK;
-						break;
-					case 42:	//	EX DE,HL
-						write_hex1( 0xEB );
-						valFind=Find.OK;
-						break;
-					case 43:	//	EX AF,AF'
-						write_hex1( 0x08 );
-						valFind=Find.OK;
-						break;
-					case 44:	//	EXX
-						write_hex1( 0xD9 );
-						valFind=Find.OK;
-						break;
-					case 45:	//	EX (SP),HL
-						write_hex1( 0xE3 );
-						valFind=Find.OK;
-						break;
-					case 46:	//	EX (SP),IX
-						write_hex1( 0xDD );
-						write_hex1( 0xE3 );
-						valFind=Find.OK;
-						break;
-					case 47:	//	EX (SP),IY
-						write_hex1( 0xFD );
-						write_hex1( 0xE3 );
-						valFind=Find.OK;
-						break;
-					case 48:	//	LDI
-						write_hex1( 0xED );
-						write_hex1( 0xA0 );
-						valFind=Find.OK;
-						break;
-					case 49:	//	LDIR
-						write_hex1( 0xED );
-						write_hex1( 0xB0 );
-						valFind=Find.OK;
-						break;
-					case 50:	//	LDD
-						write_hex1( 0xED );
-						write_hex1( 0xA8 );
-						valFind=Find.OK;
-						break;
-					case 51:	//	LDDR
-						write_hex1( 0xED );
-						write_hex1( 0xB8 );
-						valFind=Find.OK;
-						break;
-					case 52:	//	CPI
-						write_hex1( 0xED );
-						write_hex1( 0xA1 );
-						valFind=Find.OK;
-						break;
-					case 53:	//	CPIR
-						write_hex1( 0xED );
-						write_hex1( 0xB1 );
-						valFind=Find.OK;
-						break;
-					case 54:	//	CPD
-						write_hex1( 0xED );
-						write_hex1( 0xA9 );
-						valFind=Find.OK;
-						break;
-					case 55:	//	CPDR
-						write_hex1( 0xED );
-						write_hex1( 0xB9 );
-						valFind=Find.OK;
-						break;
-					case 56:	//	ADD A,r
-						write_hex1( 0b10000000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 57:	//	ADD A,n
-						write_hex1( 0xC6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 58:	//	ADD A,(HL)
-						write_hex1( 0x86 );
-						valFind=Find.OK;
-						break;
-					case 59:	//	ADD A,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0x86 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 60:	//	ADD A,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0x86 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 61:	//	ADC A,r
-						write_hex1( 0b10001000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 62:	//	ADC A,n
-						write_hex1( 0xCE );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 63:	//	ADC A,(HL)
-						write_hex1( 0x8E );
-						valFind=Find.OK;
-						break;
-					case 64:	//	ADC A,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0x8E );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 65:	//	ADC A,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0x8E );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 66:	//	SUB r
-						write_hex1( 0b10010000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 67:	//	SUB n
-						write_hex1( 0xD6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 68:	//	SUB A,(HL)
-						write_hex1( 0x96 );
-						valFind=Find.OK;
-						break;
-					case 69:	//	SUB (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0x96 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 70:	//	SUB A,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0x96 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 71:	//	SBC A,r
-						write_hex1( 0b10011000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 72:	//	SBC A,n
-						write_hex1( 0xDE );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 73:	//	SBC A,(HL)
-						write_hex1( 0x9E );
-						valFind=Find.OK;
-						break;
-					case 74:	//	SBC A,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0x9E );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 75:	//	SBC A,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0x9E );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 76:	//	AND r
-						write_hex1( 0b10100000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 77:	//	AND n
-						write_hex1( 0xE6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 78:	//	AND (HL)
-						write_hex1( 0xA6 );
-						valFind=Find.OK;
-						break;
-					case 79:	//	AND (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xA6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 80:	//	AND (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xA6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 81:	//	OR r							//?? OR
-						write_hex1( 0b10110000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 82:	//	OR n
-						write_hex1( 0xF6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 83:	//	OR (HL)
-						write_hex1( 0xB6 );
-						valFind=Find.OK;
-						break;
-					case 84:	//	OR (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xB6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 85:	//	OR (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xB6 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 86:	//	XOR r							//?? XOR
-						write_hex1( 0b10101000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 87:	//	XOR n
-						write_hex1( 0xEE );					//0xF6 と最初書いてたOR nをコピペしたミスっぽい
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 88:	//	XOR (HL)
-						write_hex1( 0xAE );					//0xB6 と最初書いてたOR (HL)をコピペしたミスっぽい
-						valFind=Find.OK;
-						break;
-					case 89:	//	XOR (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xAE );					//0xB6 と最初書いてたOR..をコピペしたミスっぽい
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 90:	//	XOR (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xAE );					//0xB6 と最初書いてたOR..をコピペしたミスっぽい
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 91:	//	CP r
-						write_hex1( 0b10111000|(g_r[o1]) );
-						valFind=Find.OK;
-						break;
-					case 92:	//	CP n
-						write_hex1( 0xFE );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 93:	//	CP (HL)
-						write_hex1( 0xBE );
-						valFind=Find.OK;
-						break;
-					case 94:	//	CP (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xBE );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 95:	//	CP (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xBE );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 96:	//	INC r
-						write_hex1( 0b00000100|(g_r[o1]<<3) );
-						valFind=Find.OK;
-						break;
-					case 97:	//	INC (HL)
-						write_hex1( 0x34 );
-						valFind=Find.OK;
-						break;
-					case 98:	//	INC (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0x34 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 99:	//	INC (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0x34 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 100:	//	DEC r
-						write_hex1( 0b00000101|(g_r[o1]<<3) );
-						valFind=Find.OK;
-						break;
-					case 101:	//	DEC (HL)
-						write_hex1( 0x35 );
-						valFind=Find.OK;
-						break;
-					case 102:	//	DEC (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0x35 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 103:	//	DEC (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0x35 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 104:	//	DAA
-						write_hex1( 0x27 );
-						valFind=Find.OK;
-						break;
-					case 105:	//	CPL
-						write_hex1( 0x2F );
-						valFind=Find.OK;
-						break;
-					case 106:	//	NEG
-						write_hex1( 0xED );
-						write_hex1( 0x44 );
-						valFind=Find.OK;
-						break;
-					case 107:	//	CCF
-						write_hex1( 0x3F );
-						valFind=Find.OK;
-						break;
-					case 108:	//	SCF
-						write_hex1( 0x37 );
-						valFind=Find.OK;
-						break;
-					case 109:	//	NOP
-						write_hex1( 0x00 );
-						valFind=Find.OK;
-						break;
-					case 110:	//	HLAT
-						write_hex1( 0x76 );
-						valFind=Find.OK;
-						break;
-					case 111:	//	DI
-						write_hex1( 0xF3 );
-						valFind=Find.OK;
-						break;
-					case 112:	//	EI
-						write_hex1( 0xFB );
-						valFind=Find.OK;
-						break;
-					case 113:	//	IM 0
-						write_hex1( 0xED );
-						write_hex1( 0x46 );
-						valFind=Find.OK;
-						break;
-					case 114:	//	IM 1
-						write_hex1( 0xED );
-						write_hex1( 0x56 );
-						valFind=Find.OK;
-						break;
-					case 115:	//	IM 2
-						write_hex1( 0xED );
-						write_hex1( 0x5E );
-						valFind=Find.OK;
-						break;
-					case 116:	//	ADD HL,ss
-						write_hex1( 0b00001001|(g_ss[o2]<<4) );
-						valFind=Find.OK;
-						break;
-					case 117:	//	ADC HL,ss
-//console.log( o1, o2 );
-						write_hex1( 0xED );
-						write_hex1( 0b01001010|(g_ss[o2]<<4) );
-						valFind=Find.OK;
-						break;
-					case 118:	//	SBC HL,ss
-						write_hex1( 0xED );
-						write_hex1( 0b01000010|(g_ss[o2]<<4) );
-						valFind=Find.OK;
-						break;
-					case 119:	//	ADD IX,pp
-						write_hex1( 0xDD );
-						write_hex1( 0b00001001|(g_pp[o2]<<4) );
-						valFind=Find.OK;
-						break;
-					case 120:	//	ADD IY,rr
-						write_hex1( 0xFD );
-						write_hex1( 0b00001001|(g_rr[o2]<<4) );
-						valFind=Find.OK;
-						break;
-					case 121:	//	INC ss
-						write_hex1( 0b00000011|(g_ss[o1]<<4) );
-						valFind=Find.OK;
-						break;
-					case 122:	//	INC IX
-						write_hex1( 0xDD );
-						write_hex1( 0x23 );
-						valFind=Find.OK;
-						break;
-					case 123:	//	INC IY
-						write_hex1( 0xFD );
-						write_hex1( 0x23 );
-						valFind=Find.OK;
-						break;
-					case 124:	//	DEC ss
-						write_hex1( 0b00001011|(g_ss[o1]<<4) );
-						valFind=Find.OK;
-						break;
-					case 125:	//	DEC IX
-						write_hex1( 0xDD );
-						write_hex1( 0x2B );
-						valFind=Find.OK;
-						break;
-					case 126:	//	DEX IY
-						write_hex1( 0xFD );
-						write_hex1( 0x2B );
-						valFind=Find.OK;
-						break;
-					case 127:	//	RLCA
-						write_hex1( 0x07 );
-						valFind=Find.OK;
-						break;
-					case 128:	//	RLA
-						write_hex1( 0x17 );
-						valFind=Find.OK;
-						break;
-					case 129:	//	RRCA
-						write_hex1( 0x0F );
-						valFind=Find.OK;
-						break;
-					case 130:	//	RRA
-						write_hex1( 0x1F );
-						valFind=Find.OK;
-						break;
-					case 131:	//	RLC r
-						write_hex1( 0xCB );
-						write_hex1( g_r[o1] );
-						valFind=Find.OK;
-						break;
-					case 132:	//	RLC (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x06 );
-						valFind=Find.OK;
-						break;
-					case 133:	//	RLC (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x06 );
-						valFind=Find.OK;
-						break;
-					case 134:	//	RLC (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x06 );
-						valFind=Find.OK;
-						break;
-					case 135:	//	RL r
-						write_hex1( 0xCB );
-						write_hex1( 0b00010000|(g_r[o1]<<0) );
-						valFind=Find.OK;
-						break;
-					case 136:	//	RL (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x16 );
-						valFind=Find.OK;
-						break;
-					case 137:	//	RL (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x16 );
-						valFind=Find.OK;
-						break;
-					case 138:	//	RL (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x16 );
-						valFind=Find.OK;
-						break;
-					case 139:	//	RRC r							//??	RRC r
-						write_hex1( 0xCB );
-						write_hex1( 0b00001000|(g_r[o1]<<0) );
-						valFind=Find.OK;
-						break;
-					case 140:	//	RRC (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x0E );
-						valFind=Find.OK;
-						break;
-					case 141:	//	RRC (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x0E );
-						valFind=Find.OK;
-						break;
-					case 142:	//	RRC (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x0E );
-						valFind=Find.OK;
-						break;
-					case 143:	//	RR r							//??	RR r
-						write_hex1( 0xCB );
-						write_hex1( 0b00011000|(g_r[o1]<<0) );
-						valFind=Find.OK;
-						break;
-					case 144:	//	RR (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x1E );
-						valFind=Find.OK;
-						break;
-					case 145:	//	RR (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x1E );
-						valFind=Find.OK;
-						break;
-					case 146:	//	RR (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x1E );
-						valFind=Find.OK;
-						break;
-					case 147:	//	SLA r							//??	SLA	r
-						write_hex1( 0xCB );
-						write_hex1( 0b00100000|(g_r[o1]<<0) );
-						valFind=Find.OK;
-						break;
-					case 148:	//	SLA (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x26 );
-						valFind=Find.OK;
-						break;
-					case 149:	//	SLA (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x26 );
-						valFind=Find.OK;
-						break;
-					case 150:	//	SLA (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x26 );
-						valFind=Find.OK;
-						break;
-					case 151:	//	SRA r							//??	SRA	r
-						write_hex1( 0xCB );
-						write_hex1( 0b00101000|(g_r[o1]<<0) );
-						valFind=Find.OK;
-						break;
-					case 152:	//	SRA (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x2E );
-						valFind=Find.OK;
-						break;
-					case 153:	//	SRA (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x2E );
-						valFind=Find.OK;
-						break;
-					case 154:	//	SRA (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x2E );
-						valFind=Find.OK;
-						break;
-					case 155:	//	SRL r
-						write_hex1( 0xCB );
-						write_hex1( 0b00111000|(g_r[o1]<<0) );
-						valFind=Find.OK;
-						break;
-					case 156:	//	SRL (HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x3E );
-						valFind=Find.OK;
-						break;
-					case 157:	//	SRL (IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x3E );
-						valFind=Find.OK;
-						break;
-					case 158:	//	SRL (IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o1 );
-						write_hex1( 0x3E );
-						valFind=Find.OK;
-						break;
-					case 159:	//	RLD
-						write_hex1( 0xED );
-						write_hex1( 0x6F );
-						valFind=Find.OK;
-						break;
-					case 160:	//	RRD
-						write_hex1( 0xED );
-						write_hex1( 0x67 );
-						valFind=Find.OK;
-						break;
-					case 161:	//	BIT b,r
-						write_hex1( 0xCB );
-						write_hex1( 0x40|(o1<<3)|g_r[o2] );
-						valFind=Find.OK;
-						break;
-					case 162:	//	BIT b,(HL)
-						write_hex1( 0xCB );
-						write_hex1( 0x46|(o1<<3)|g_r[o2] );
-						valFind=Find.OK;
-						break;
-					case 163:	//	BIT b,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o2 );
-						write_hex1( 0b01000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 164:	//	BIT b,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o2 );
-						write_hex1( 0b01000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 165:	//	SET b,r
-						write_hex1( 0xCB );
-						write_hex1( 0b11000000|(o1<<3)|g_r[o2] );
-						valFind=Find.OK;
-						break;
-					case 166:	//	SET b,(HL)
-						write_hex1( 0xCB );
-						write_hex1( 0b11000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 167:	//	SET b,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o2 );
-						write_hex1( 0b11000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 168:	//	SET b,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o2 );
-						write_hex1( 0b11000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 169:	//	RES b,r
-						write_hex1( 0xCB );
-						write_hex1( 0b10000000|(o1<<3)|g_r[o2] );
-						valFind=Find.OK;
-						break;
-					case 170:	//	RES b,(HL)
-						write_hex1( 0xCB );
-						write_hex1( 0b10000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 171:	//	RES b,(IX+d)
-						write_hex1( 0xDD );
-						write_hex1( 0xCB );
-						write_hex1( o2 );
-						write_hex1( 0b10000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 172:	//	RES b,(IY+d)
-						write_hex1( 0xFD );
-						write_hex1( 0xCB );
-						write_hex1( o2 );
-						write_hex1( 0b10000110|(o1<<3) );
-						valFind=Find.OK;
-						break;
-					case 173:	//	JP nn
-						write_hex1( 0xC3 );
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 174:	//	JP cc,nn
-						write_hex1( 0b11000010|(g_cc[o1]<<3) );
-						o2=cnvLabels2Dec(o2);
-						write_hex1( (o2   )&0xff );
-						write_hex1( (o2>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 175:	//	JR e
-						write_hex1( 0x18 );
-						o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 176:	//	JR C,e
-						write_hex1( 0x38 );
-						if ( !o1.toString().isDigit() ) 
-						o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 177:	//	JR NC,e
-						write_hex1( 0x30 );
-						if ( !o1.toString().isDigit() ) 
-						o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 178:	//	JR Z,e
-						write_hex1( 0x28 );
-						if ( !o1.toString().isDigit() ) 
-						o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 179:	//	JR NZ,e
-						write_hex1( 0x20 );
-						if ( !o1.toString().isDigit() ) 
-						o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 180:	//	JP (HL)
-						write_hex1( 0xE9 );
-						valFind=Find.OK;
-						break;
-					case 181:	//	JP (IX)
-						write_hex1( 0xDD );
-						write_hex1( 0xE9 );
-						valFind=Find.OK;
-						break;
-					case 182:	//	JP (IY)
-						write_hex1( 0xFD );
-						write_hex1( 0xE9 );
-						valFind=Find.OK;
-						break;
-					case 183:	//	DJNZ e
-						write_hex1( 0x10 );
-						if ( !o1.toString().isDigit() ) 
+
+						var	o1=tbl[1];	if ( o1 != undefined ) o1 = o1.toUpperCase();
+						var	o2=tbl[2];	if ( o2 != undefined ) o2 = o2.toUpperCase();
+						var	o3=tbl[3];	if ( o3 != undefined ) o3 = o3.toUpperCase();
+	//console.log(str,tbl,p);
+	//if ( g_flgAssemble ) console.log( ">",opc[1] );
+	//					switch(p)
+
+						switch(opc[1])
 						{
-							if ( (o1=g_tblLabelcode[o1])==undefined ) break;
-							o1=o1-g_cntAddress-1;
+						case 1://ld r,r
+							write_hex1( 0b01000000|(g_r[o1]<<3)|(g_r[o2]) );
+							valFind=Find.OK;
+							break;
+						case 2:	//ld r,n
+							write_hex1( 0b00000110|(g_r[o1]<<3) );
+							write_hex1( o2 );
+							valFind=Find.OK;
+							break;
+						case 3:	//ld r,(HL)
+							write_hex1( 0b01000110|(g_r[o1]<<3) );
+							valFind=Find.OK;
+							break;
+						case 4:	//ld r,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0b01000110|(g_r[o1]<<3) );
+							write_hex1( o2 );
+							valFind=Find.OK;
+							break;
+						case 5:	//ld r,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0b01000110|(g_r[o1]<<3) );
+							write_hex1( o2 );
+							valFind=Find.OK;
+							break;
+						case 6:	//ld (HL),r
+							write_hex1( 0b01110000|(g_r[o2]) );
+							valFind=Find.OK;
+							break;
+						case 7:	//ld (IX+d),r
+							write_hex1( 0xDD );
+							write_hex1( 0b01110000|(g_r[o2]) );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 8:	//ld (IY+d),r
+							write_hex1( 0xFD );
+							write_hex1( 0b01110000|(g_r[o2]) );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 9:	//ld (HL),n
+							write_hex1( 0x36 );
+							write_hex1( o2 );
+							valFind=Find.OK;
+							break;
+						case 10:	//ld (ix+d),n
+							write_hex1( 0xDD );
+							write_hex1( 0x36 );
+							write_hex1( o1 );
+							write_hex1( o2 );
+							valFind=Find.OK;
+							break;
+						case 11:	//ld (iy+d),n
+							write_hex1( 0xFD );
+							write_hex1( 0x36 );
+							write_hex1( o1 );
+							write_hex1( o2 );
+							valFind=Find.OK;
+							break;
+						case 12:	//ld a,(bc)
+							write_hex1( 0x0a );
+							valFind=Find.OK;
+							break;
+						case 13:	//	LD A,(DE)
+							write_hex1( 0x1a );
+							valFind=Find.OK;
+							break;
+						case 14:	//	LD A,(nn)
+							write_hex1( 0x3a);
+							o1=cnvLabels2Dec(o1);
+	//if ( g_flgAssemble ) console.log("::",o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 15:	//	LD (BC),A
+							write_hex1( 0x02 );
+							valFind=Find.OK;
+							break;
+						case 16:	//	LD (DE),A
+							write_hex1( 0x12 );
+							valFind=Find.OK;
+							break;
+						case 17:	//	LD (nn),A
+							write_hex1( 0x32 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 18:	//	LD A,I
+							write_hex1( 0xed );
+							write_hex1( 0x57 );
+							valFind=Find.OK;
+							break;
+						case 19:	//	LD A,R
+							write_hex1( 0xed );
+							write_hex1( 0x5f );
+							valFind=Find.OK;
+							break;
+						case 20:	//	LD I,A
+							write_hex1( 0xed );
+							write_hex1( 0x47 );
+							valFind=Find.OK;
+							break;
+						case 21:	//	LD R,A
+							write_hex1( 0xed );
+							write_hex1( 0x4f );
+							valFind=Find.OK;
+							break;
+						case 22:	//	LD dd,nn
+							write_hex1( 0b00000001|g_dd[o1]<<4 );
+	//console.log(o2);
+							o2=cnvLabels2Dec(o2);
+							write_hex1( (o2   )&0xff );
+							write_hex1( (o2>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 23:	//	LD IX,nn
+							write_hex1( 0xDD );
+							write_hex1( 0x21 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 24:	//	LD IY,nn
+							write_hex1( 0xFD );
+							write_hex1( 0x21 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 25:	//	LD HL,(nn)
+							write_hex1( 0x2A );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 26:	//	LD dd,(nn)
+							write_hex1( 0xED );
+							write_hex1( 0b01001011|g_dd[o1]<<4 );
+							o2=cnvLabels2Dec(o2);
+							write_hex1( (o2   )&0xff );
+							write_hex1( (o2>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 27:	//	LD IX,(nn)
+							write_hex1( 0xDD );
+							write_hex1( 0x2A );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 28:	//	LD IY,(nn)
+							write_hex1( 0xFD );
+							write_hex1( 0x2A );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 29:	//	LD (nn),HL
+	//console.log(o1,o2)
+							write_hex1( 0x22 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 30:	//	LD (nn),dd
+							write_hex1( 0xED );
+							write_hex1( 0b01000011|g_dd[o2]<<4 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 31:	//	LD (nn),IX
+							write_hex1( 0xDD );
+							write_hex1( 0x22 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 32:	//	LD (nn),IY
+							write_hex1( 0xFD );
+							write_hex1( 0x22 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 33:	//	LD SP,HL
+							write_hex1( 0xF9 );
+							valFind=Find.OK;
+							break;
+						case 34:	//	LD SP,IX
+							write_hex1( 0xDD );
+							write_hex1( 0xF9 );
+							valFind=Find.OK;
+							break;
+						case 35:	//	LD SP,IY
+							write_hex1( 0xFD );
+							write_hex1( 0xF9 );
+							valFind=Find.OK;
+							break;
+						case 36:	//	PUSH qq
+							write_hex1( 0b11000101|g_qq[o1]<<4 );
+							valFind=Find.OK;
+							break;
+						case 37:	//	PUSH IX
+							write_hex1( 0xDD );
+							write_hex1( 0xE5 );
+							valFind=Find.OK;
+							break;
+						case 38:	//	PUSH IY
+							write_hex1( 0xFD );
+							write_hex1( 0xE5 );
+							valFind=Find.OK;
+							break;
+						case 39:	//	POP qq
+							write_hex1( 0b11000001|g_qq[o1]<<4 );
+							valFind=Find.OK;
+							break;
+						case 40:	//	POP IX
+							write_hex1( 0xDD );
+							write_hex1( 0xE1 );
+							valFind=Find.OK;
+							break;
+						case 41:	//	POP IY
+							write_hex1( 0xFD );
+							write_hex1( 0xE1 );
+							valFind=Find.OK;
+							break;
+						case 42:	//	EX DE,HL
+							write_hex1( 0xEB );
+							valFind=Find.OK;
+							break;
+						case 43:	//	EX AF,AF'
+							write_hex1( 0x08 );
+							valFind=Find.OK;
+							break;
+						case 44:	//	EXX
+							write_hex1( 0xD9 );
+							valFind=Find.OK;
+							break;
+						case 45:	//	EX (SP),HL
+							write_hex1( 0xE3 );
+							valFind=Find.OK;
+							break;
+						case 46:	//	EX (SP),IX
+							write_hex1( 0xDD );
+							write_hex1( 0xE3 );
+							valFind=Find.OK;
+							break;
+						case 47:	//	EX (SP),IY
+							write_hex1( 0xFD );
+							write_hex1( 0xE3 );
+							valFind=Find.OK;
+							break;
+						case 48:	//	LDI
+							write_hex1( 0xED );
+							write_hex1( 0xA0 );
+							valFind=Find.OK;
+							break;
+						case 49:	//	LDIR
+							write_hex1( 0xED );
+							write_hex1( 0xB0 );
+							valFind=Find.OK;
+							break;
+						case 50:	//	LDD
+							write_hex1( 0xED );
+							write_hex1( 0xA8 );
+							valFind=Find.OK;
+							break;
+						case 51:	//	LDDR
+							write_hex1( 0xED );
+							write_hex1( 0xB8 );
+							valFind=Find.OK;
+							break;
+						case 52:	//	CPI
+							write_hex1( 0xED );
+							write_hex1( 0xA1 );
+							valFind=Find.OK;
+							break;
+						case 53:	//	CPIR
+							write_hex1( 0xED );
+							write_hex1( 0xB1 );
+							valFind=Find.OK;
+							break;
+						case 54:	//	CPD
+							write_hex1( 0xED );
+							write_hex1( 0xA9 );
+							valFind=Find.OK;
+							break;
+						case 55:	//	CPDR
+							write_hex1( 0xED );
+							write_hex1( 0xB9 );
+							valFind=Find.OK;
+							break;
+						case 56:	//	ADD A,r
+							write_hex1( 0b10000000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 57:	//	ADD A,n
+							write_hex1( 0xC6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 58:	//	ADD A,(HL)
+							write_hex1( 0x86 );
+							valFind=Find.OK;
+							break;
+						case 59:	//	ADD A,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0x86 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 60:	//	ADD A,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0x86 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 61:	//	ADC A,r
+							write_hex1( 0b10001000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 62:	//	ADC A,n
+							write_hex1( 0xCE );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 63:	//	ADC A,(HL)
+							write_hex1( 0x8E );
+							valFind=Find.OK;
+							break;
+						case 64:	//	ADC A,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0x8E );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 65:	//	ADC A,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0x8E );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 66:	//	SUB r
+							write_hex1( 0b10010000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 67:	//	SUB n
+							write_hex1( 0xD6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 68:	//	SUB A,(HL)
+							write_hex1( 0x96 );
+							valFind=Find.OK;
+							break;
+						case 69:	//	SUB (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0x96 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 70:	//	SUB A,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0x96 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 71:	//	SBC A,r
+							write_hex1( 0b10011000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 72:	//	SBC A,n
+							write_hex1( 0xDE );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 73:	//	SBC A,(HL)
+							write_hex1( 0x9E );
+							valFind=Find.OK;
+							break;
+						case 74:	//	SBC A,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0x9E );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 75:	//	SBC A,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0x9E );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 76:	//	AND r
+							write_hex1( 0b10100000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 77:	//	AND n
+							write_hex1( 0xE6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 78:	//	AND (HL)
+							write_hex1( 0xA6 );
+							valFind=Find.OK;
+							break;
+						case 79:	//	AND (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xA6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 80:	//	AND (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xA6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 81:	//	OR r							//?? OR
+							write_hex1( 0b10110000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 82:	//	OR n
+							write_hex1( 0xF6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 83:	//	OR (HL)
+							write_hex1( 0xB6 );
+							valFind=Find.OK;
+							break;
+						case 84:	//	OR (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xB6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 85:	//	OR (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xB6 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 86:	//	XOR r							//?? XOR
+							write_hex1( 0b10101000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 87:	//	XOR n
+							write_hex1( 0xEE );					//0xF6 と最初書いてたOR nをコピペしたミスっぽい
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 88:	//	XOR (HL)
+							write_hex1( 0xAE );					//0xB6 と最初書いてたOR (HL)をコピペしたミスっぽい
+							valFind=Find.OK;
+							break;
+						case 89:	//	XOR (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xAE );					//0xB6 と最初書いてたOR..をコピペしたミスっぽい
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 90:	//	XOR (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xAE );					//0xB6 と最初書いてたOR..をコピペしたミスっぽい
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 91:	//	CP r
+							write_hex1( 0b10111000|(g_r[o1]) );
+							valFind=Find.OK;
+							break;
+						case 92:	//	CP n
+							write_hex1( 0xFE );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 93:	//	CP (HL)
+							write_hex1( 0xBE );
+							valFind=Find.OK;
+							break;
+						case 94:	//	CP (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xBE );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 95:	//	CP (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xBE );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 96:	//	INC r
+							write_hex1( 0b00000100|(g_r[o1]<<3) );
+							valFind=Find.OK;
+							break;
+						case 97:	//	INC (HL)
+							write_hex1( 0x34 );
+							valFind=Find.OK;
+							break;
+						case 98:	//	INC (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0x34 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 99:	//	INC (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0x34 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 100:	//	DEC r
+							write_hex1( 0b00000101|(g_r[o1]<<3) );
+							valFind=Find.OK;
+							break;
+						case 101:	//	DEC (HL)
+							write_hex1( 0x35 );
+							valFind=Find.OK;
+							break;
+						case 102:	//	DEC (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0x35 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 103:	//	DEC (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0x35 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 104:	//	DAA
+							write_hex1( 0x27 );
+							valFind=Find.OK;
+							break;
+						case 105:	//	CPL
+							write_hex1( 0x2F );
+							valFind=Find.OK;
+							break;
+						case 106:	//	NEG
+							write_hex1( 0xED );
+							write_hex1( 0x44 );
+							valFind=Find.OK;
+							break;
+						case 107:	//	CCF
+							write_hex1( 0x3F );
+							valFind=Find.OK;
+							break;
+						case 108:	//	SCF
+							write_hex1( 0x37 );
+							valFind=Find.OK;
+							break;
+						case 109:	//	NOP
+							write_hex1( 0x00 );
+							valFind=Find.OK;
+							break;
+						case 110:	//	HLAT
+							write_hex1( 0x76 );
+							valFind=Find.OK;
+							break;
+						case 111:	//	DI
+							write_hex1( 0xF3 );
+							valFind=Find.OK;
+							break;
+						case 112:	//	EI
+							write_hex1( 0xFB );
+							valFind=Find.OK;
+							break;
+						case 113:	//	IM 0
+							write_hex1( 0xED );
+							write_hex1( 0x46 );
+							valFind=Find.OK;
+							break;
+						case 114:	//	IM 1
+							write_hex1( 0xED );
+							write_hex1( 0x56 );
+							valFind=Find.OK;
+							break;
+						case 115:	//	IM 2
+							write_hex1( 0xED );
+							write_hex1( 0x5E );
+							valFind=Find.OK;
+							break;
+						case 116:	//	ADD HL,ss
+							write_hex1( 0b00001001|(g_ss[o2]<<4) );
+							valFind=Find.OK;
+							break;
+						case 117:	//	ADC HL,ss
+	//console.log( o1, o2 );
+							write_hex1( 0xED );
+							write_hex1( 0b01001010|(g_ss[o2]<<4) );
+							valFind=Find.OK;
+							break;
+						case 118:	//	SBC HL,ss
+							write_hex1( 0xED );
+							write_hex1( 0b01000010|(g_ss[o2]<<4) );
+							valFind=Find.OK;
+							break;
+						case 119:	//	ADD IX,pp
+							write_hex1( 0xDD );
+							write_hex1( 0b00001001|(g_pp[o2]<<4) );
+							valFind=Find.OK;
+							break;
+						case 120:	//	ADD IY,rr
+							write_hex1( 0xFD );
+							write_hex1( 0b00001001|(g_rr[o2]<<4) );
+							valFind=Find.OK;
+							break;
+						case 121:	//	INC ss
+							write_hex1( 0b00000011|(g_ss[o1]<<4) );
+							valFind=Find.OK;
+							break;
+						case 122:	//	INC IX
+							write_hex1( 0xDD );
+							write_hex1( 0x23 );
+							valFind=Find.OK;
+							break;
+						case 123:	//	INC IY
+							write_hex1( 0xFD );
+							write_hex1( 0x23 );
+							valFind=Find.OK;
+							break;
+						case 124:	//	DEC ss
+							write_hex1( 0b00001011|(g_ss[o1]<<4) );
+							valFind=Find.OK;
+							break;
+						case 125:	//	DEC IX
+							write_hex1( 0xDD );
+							write_hex1( 0x2B );
+							valFind=Find.OK;
+							break;
+						case 126:	//	DEX IY
+							write_hex1( 0xFD );
+							write_hex1( 0x2B );
+							valFind=Find.OK;
+							break;
+						case 127:	//	RLCA
+							write_hex1( 0x07 );
+							valFind=Find.OK;
+							break;
+						case 128:	//	RLA
+							write_hex1( 0x17 );
+							valFind=Find.OK;
+							break;
+						case 129:	//	RRCA
+							write_hex1( 0x0F );
+							valFind=Find.OK;
+							break;
+						case 130:	//	RRA
+							write_hex1( 0x1F );
+							valFind=Find.OK;
+							break;
+						case 131:	//	RLC r
+							write_hex1( 0xCB );
+							write_hex1( g_r[o1] );
+							valFind=Find.OK;
+							break;
+						case 132:	//	RLC (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x06 );
+							valFind=Find.OK;
+							break;
+						case 133:	//	RLC (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x06 );
+							valFind=Find.OK;
+							break;
+						case 134:	//	RLC (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x06 );
+							valFind=Find.OK;
+							break;
+						case 135:	//	RL r
+							write_hex1( 0xCB );
+							write_hex1( 0b00010000|(g_r[o1]<<0) );
+							valFind=Find.OK;
+							break;
+						case 136:	//	RL (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x16 );
+							valFind=Find.OK;
+							break;
+						case 137:	//	RL (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x16 );
+							valFind=Find.OK;
+							break;
+						case 138:	//	RL (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x16 );
+							valFind=Find.OK;
+							break;
+						case 139:	//	RRC r							//??	RRC r
+							write_hex1( 0xCB );
+							write_hex1( 0b00001000|(g_r[o1]<<0) );
+							valFind=Find.OK;
+							break;
+						case 140:	//	RRC (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x0E );
+							valFind=Find.OK;
+							break;
+						case 141:	//	RRC (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x0E );
+							valFind=Find.OK;
+							break;
+						case 142:	//	RRC (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x0E );
+							valFind=Find.OK;
+							break;
+						case 143:	//	RR r							//??	RR r
+							write_hex1( 0xCB );
+							write_hex1( 0b00011000|(g_r[o1]<<0) );
+							valFind=Find.OK;
+							break;
+						case 144:	//	RR (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x1E );
+							valFind=Find.OK;
+							break;
+						case 145:	//	RR (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x1E );
+							valFind=Find.OK;
+							break;
+						case 146:	//	RR (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x1E );
+							valFind=Find.OK;
+							break;
+						case 147:	//	SLA r							//??	SLA	r
+							write_hex1( 0xCB );
+							write_hex1( 0b00100000|(g_r[o1]<<0) );
+							valFind=Find.OK;
+							break;
+						case 148:	//	SLA (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x26 );
+							valFind=Find.OK;
+							break;
+						case 149:	//	SLA (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x26 );
+							valFind=Find.OK;
+							break;
+						case 150:	//	SLA (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x26 );
+							valFind=Find.OK;
+							break;
+						case 151:	//	SRA r							//??	SRA	r
+							write_hex1( 0xCB );
+							write_hex1( 0b00101000|(g_r[o1]<<0) );
+							valFind=Find.OK;
+							break;
+						case 152:	//	SRA (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x2E );
+							valFind=Find.OK;
+							break;
+						case 153:	//	SRA (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x2E );
+							valFind=Find.OK;
+							break;
+						case 154:	//	SRA (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x2E );
+							valFind=Find.OK;
+							break;
+						case 155:	//	SRL r
+							write_hex1( 0xCB );
+							write_hex1( 0b00111000|(g_r[o1]<<0) );
+							valFind=Find.OK;
+							break;
+						case 156:	//	SRL (HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x3E );
+							valFind=Find.OK;
+							break;
+						case 157:	//	SRL (IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x3E );
+							valFind=Find.OK;
+							break;
+						case 158:	//	SRL (IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o1 );
+							write_hex1( 0x3E );
+							valFind=Find.OK;
+							break;
+						case 159:	//	RLD
+							write_hex1( 0xED );
+							write_hex1( 0x6F );
+							valFind=Find.OK;
+							break;
+						case 160:	//	RRD
+							write_hex1( 0xED );
+							write_hex1( 0x67 );
+							valFind=Find.OK;
+							break;
+						case 161:	//	BIT b,r
+							write_hex1( 0xCB );
+							write_hex1( 0x40|(o1<<3)|g_r[o2] );
+							valFind=Find.OK;
+							break;
+						case 162:	//	BIT b,(HL)
+							write_hex1( 0xCB );
+							write_hex1( 0x46|(o1<<3)|g_r[o2] );
+							valFind=Find.OK;
+							break;
+						case 163:	//	BIT b,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o2 );
+							write_hex1( 0b01000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 164:	//	BIT b,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o2 );
+							write_hex1( 0b01000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 165:	//	SET b,r
+							write_hex1( 0xCB );
+							write_hex1( 0b11000000|(o1<<3)|g_r[o2] );
+							valFind=Find.OK;
+							break;
+						case 166:	//	SET b,(HL)
+							write_hex1( 0xCB );
+							write_hex1( 0b11000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 167:	//	SET b,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o2 );
+							write_hex1( 0b11000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 168:	//	SET b,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o2 );
+							write_hex1( 0b11000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 169:	//	RES b,r
+							write_hex1( 0xCB );
+							write_hex1( 0b10000000|(o1<<3)|g_r[o2] );
+							valFind=Find.OK;
+							break;
+						case 170:	//	RES b,(HL)
+							write_hex1( 0xCB );
+							write_hex1( 0b10000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 171:	//	RES b,(IX+d)
+							write_hex1( 0xDD );
+							write_hex1( 0xCB );
+							write_hex1( o2 );
+							write_hex1( 0b10000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 172:	//	RES b,(IY+d)
+							write_hex1( 0xFD );
+							write_hex1( 0xCB );
+							write_hex1( o2 );
+							write_hex1( 0b10000110|(o1<<3) );
+							valFind=Find.OK;
+							break;
+						case 173:	//	JP nn
+							write_hex1( 0xC3 );
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 174:	//	JP cc,nn
+							write_hex1( 0b11000010|(g_cc[o1]<<3) );
+							o2=cnvLabels2Dec(o2);
+							write_hex1( (o2   )&0xff );
+							write_hex1( (o2>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 175:	//	JR e
+							write_hex1( 0x18 );
+							o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 176:	//	JR C,e
+							write_hex1( 0x38 );
+							if ( !o1.toString().isDigit() ) 
+							o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 177:	//	JR NC,e
+							write_hex1( 0x30 );
+							if ( !o1.toString().isDigit() ) 
+							o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 178:	//	JR Z,e
+							write_hex1( 0x28 );
+							if ( !o1.toString().isDigit() ) 
+							o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 179:	//	JR NZ,e
+							write_hex1( 0x20 );
+							if ( !o1.toString().isDigit() ) 
+							o1 = cnvLabels2Dec( o1 ) -g_cntAddress-1;
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 180:	//	JP (HL)
+							write_hex1( 0xE9 );
+							valFind=Find.OK;
+							break;
+						case 181:	//	JP (IX)
+							write_hex1( 0xDD );
+							write_hex1( 0xE9 );
+							valFind=Find.OK;
+							break;
+						case 182:	//	JP (IY)
+							write_hex1( 0xFD );
+							write_hex1( 0xE9 );
+							valFind=Find.OK;
+							break;
+						case 183:	//	DJNZ e
+							write_hex1( 0x10 );
+							if ( !o1.toString().isDigit() ) 
+							{
+								if ( (o1=g_tblLabelcode[o1])==undefined ) break;
+								o1=o1-g_cntAddress-1;
+							}
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 184:	//	CALL nn
+							write_hex1( 0xCD );
+							if ( !o1.toString().isDigit() ) if ( (o1=g_tblLabelcode[o1])==undefined ) break;
+							o1=cnvLabels2Dec(o1);
+							write_hex1( (o1   )&0xff );
+							write_hex1( (o1>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 185:	//	CALL cc,nn
+							write_hex1( 0b11000100|(g_cc[o1]<<3) );
+							if ( !o2.toString().isDigit() ) if ( (o2=g_tblLabelcode[o2])==undefined ) break;
+							o2=cnvLabels2Dec(o2);
+							write_hex1( (o2   )&0xff );
+							write_hex1( (o2>>8)&0xff );
+							valFind=Find.OK;
+							break;
+						case 186:	//	RET
+							write_hex1( 0xC9 );
+							valFind=Find.OK;
+							break;
+						case 187:	//	RET cc
+							write_hex1( 0b11000000|(g_cc[o1]<<3) );
+							valFind=Find.OK;
+							break;
+						case 188:	//	RETI
+							write_hex1( 0xED );
+							write_hex1( 0x4D );
+							valFind=Find.OK;
+							break;
+						case 189:	//	RETN
+							write_hex1( 0xED );
+							write_hex1( 0x45 );
+							valFind=Find.OK;
+							break;
+						case 190:	//	RST p
+
+							write_hex1( g_p[o1] );
+							valFind=Find.OK;
+							break;
+						case 191:	//	IN A,(n)
+							write_hex1( 0xDB );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 192:	//	IN r,(C)
+							write_hex1( 0xED );
+							write_hex1( 0b01000000|(g_r[o1]<<3) );
+							valFind=Find.OK;
+							break;
+						case 193:	//	INI
+							write_hex1( 0xED );
+							write_hex1( 0xA2 );
+							valFind=Find.OK;
+							break;
+						case 194:	//	INIR
+							write_hex1( 0xED );
+							write_hex1( 0xB2 );
+							valFind=Find.OK;
+							break;
+						case 195:	//	IND
+							write_hex1( 0xED );
+							write_hex1( 0xAA );
+							valFind=Find.OK;
+							break;
+						case 196:	//	INDR
+							write_hex1( 0xED );
+							write_hex1( 0xBA );
+							valFind=Find.OK;
+							break;
+						case 197:	//	OUT (n),A
+							write_hex1( 0xD3 );
+							write_hex1( o1 );
+							valFind=Find.OK;
+							break;
+						case 198:	//	OUT (C),r
+							write_hex1( 0xED );
+							write_hex1( 0b01000001|(g_r[o2]<<3) );
+							valFind=Find.OK;
+							break;
+						case 199:	//	OUTI
+							write_hex1( 0xED );
+							write_hex1( 0xA3 );
+							valFind=Find.OK;
+							break;
+						case 200:	//	OUTIR
+							write_hex1( 0xED );
+							write_hex1( 0xB3 );
+							valFind=Find.OK;
+							break;
+						case 201:	//	OUTD
+							write_hex1( 0xED );
+							write_hex1( 0xAB );
+							valFind=Find.OK;
+							break;
+						case 202:	//	OUTDR
+							write_hex1( 0xED );
+							write_hex1( 0xBB );
+							valFind=Find.OK;
+							break;
+
+						//擬似コード
+						case 203://LABEL
+							{
+								let ofs = g_tblLabelcode["ORG"];
+								g_tblLabelcode[o1]=g_cntAddress + ofs;
+							}
+							valFind=Find.OK;
+							break;
+
+						case 204://EQU
+							g_tblLabelcode[o1]=o2;
+							valFind=Find.OK;
+							break;
+
+						case 205://ORG
+							o1 = cnvLabels2Dec(o1);
+							g_tblLabelcode["ORG"]=o1;
+							valFind=Find.OK;
+							break;
+
 						}
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 184:	//	CALL nn
-						write_hex1( 0xCD );
-						if ( !o1.toString().isDigit() ) if ( (o1=g_tblLabelcode[o1])==undefined ) break;
-						o1=cnvLabels2Dec(o1);
-						write_hex1( (o1   )&0xff );
-						write_hex1( (o1>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 185:	//	CALL cc,nn
-						write_hex1( 0b11000100|(g_cc[o1]<<3) );
-						if ( !o2.toString().isDigit() ) if ( (o2=g_tblLabelcode[o2])==undefined ) break;
-						o2=cnvLabels2Dec(o2);
-						write_hex1( (o2   )&0xff );
-						write_hex1( (o2>>8)&0xff );
-						valFind=Find.OK;
-						break;
-					case 186:	//	RET
-						write_hex1( 0xC9 );
-						valFind=Find.OK;
-						break;
-					case 187:	//	RET cc
-						write_hex1( 0b11000000|(g_cc[o1]<<3) );
-						valFind=Find.OK;
-						break;
-					case 188:	//	RETI
-						write_hex1( 0xED );
-						write_hex1( 0x4D );
-						valFind=Find.OK;
-						break;
-					case 189:	//	RETN
-						write_hex1( 0xED );
-						write_hex1( 0x45 );
-						valFind=Find.OK;
-						break;
-					case 190:	//	RST p
 
-						write_hex1( g_p[o1] );
-						valFind=Find.OK;
 						break;
-					case 191:	//	IN A,(n)
-						write_hex1( 0xDB );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 192:	//	IN r,(C)
-						write_hex1( 0xED );
-						write_hex1( 0b01000000|(g_r[o1]<<3) );
-						valFind=Find.OK;
-						break;
-					case 193:	//	INI
-						write_hex1( 0xED );
-						write_hex1( 0xA2 );
-						valFind=Find.OK;
-						break;
-					case 194:	//	INIR
-						write_hex1( 0xED );
-						write_hex1( 0xB2 );
-						valFind=Find.OK;
-						break;
-					case 195:	//	IND
-						write_hex1( 0xED );
-						write_hex1( 0xAA );
-						valFind=Find.OK;
-						break;
-					case 196:	//	INDR
-						write_hex1( 0xED );
-						write_hex1( 0xBA );
-						valFind=Find.OK;
-						break;
-					case 197:	//	OUT (n),A
-						write_hex1( 0xD3 );
-						write_hex1( o1 );
-						valFind=Find.OK;
-						break;
-					case 198:	//	OUT (C),r
-						write_hex1( 0xED );
-						write_hex1( 0b01000001|(g_r[o2]<<3) );
-						valFind=Find.OK;
-						break;
-					case 199:	//	OUTI
-						write_hex1( 0xED );
-						write_hex1( 0xA3 );
-						valFind=Find.OK;
-						break;
-					case 200:	//	OUTIR
-						write_hex1( 0xED );
-						write_hex1( 0xB3 );
-						valFind=Find.OK;
-						break;
-					case 201:	//	OUTD
-						write_hex1( 0xED );
-						write_hex1( 0xAB );
-						valFind=Find.OK;
-						break;
-					case 202:	//	OUTDR
-						write_hex1( 0xED );
-						write_hex1( 0xBB );
-						valFind=Find.OK;
-						break;
-
-					//擬似コード
-					case 203://LABEL
-						g_tblLabelcode[o1]=g_cntAddress;
-						valFind=Find.OK;
-						break;
-
-					case 204://EQU
-						g_tblLabelcode[o1]=o2;
-						valFind=Find.OK;
-						break;
-
-					case 205://EQU
-						o1 = cnvLabels2Dec(o1);
-						g_tblLabelcode["ORG"]=o1;
-						valFind=Find.OK;
-						break;
-/*
-					case 206://DEFB
-						o1 = cnvLabels2Dec(o1);
-						g_tblLabelcode["ORG"]=o1;
-						valFind=Find.OK;
-						break;
-*/
-
 					}
-
-					break;
 				}
 			}
 
 			if ( g_flgAssemble ) // コマンドとHEXの比較出力。デバッグ用
 			{
-//console.log( str );
-				let strcmd = "";
-				let ofs = g_tblLabelcode["ORG"];
-					strcmd += (stCmdHex+ofs).toHex(4)+" ";
-				for ( let i = 0 ; i < 4 ; i++ )
 				{
-					if ( i < g_tblCode.length-stCmdHex )
+					let strcmd = "";
+					let ofs = g_tblLabelcode["ORG"];
+					let len = g_tblCode.length-stCmdHex;
+					
+					const wdt = 4;
+					for ( let i = 0 ; i < Math.floor(len/wdt+1)*wdt  ; i++ )
 					{
-						strcmd += g_tblCode[ stCmdHex+i ].toHex(2) + " ";
+						let data = g_tblCode[ stCmdHex+i ];
+
+						if ( (i%wdt) == 0 )			// アドレス表示
+						{
+							if ( i>0 ) strcmd += "\n";
+							strcmd += (stCmdHex+ofs+i).toHex(4)+" ";
+						}
+
+						if ( data == undefined ) 	// 空白表示
+						{
+							strcmd += "   ";
+						}
+						else						// データ表示
+						{
+							strcmd += data.toHex(2) + " ";
+						}
+						if ( i == wdt-1 )			// 命令表示
+						{
+							strcmd += ""+str;
+						}
+		
 					}
-					else
-					{
-						strcmd += "   ";
-					}
-//console.log( strcmd );
+					g_tblCmdHex.push( strcmd + "\n");
 				}
-					g_tblCmdHex.push( strcmd + " "+str+"\n");
+
 			}
 			
 			if ( g_flgAssemble )
@@ -1834,9 +1831,9 @@ window.onload = function()
 	if ( 1)
 	{
 		document.getElementById("src").value ="; Z80 smaple\n";
-		document.getElementById("src").value +="	ORG 0100h"+"\n";
-		document.getElementById("src").value +="	jp main:"+"\n";
-		document.getElementById("src").value +="	DEFB 1,2,3"+"\n";
+		document.getElementById("src").value +="	ORG 1000h"+"\n";
+		document.getElementById("src").value +="	jp main"+"\n";
+		document.getElementById("src").value +="	DEFB 1,2,3,4,5,6,7,8,9,ah"+"\n";
 		document.getElementById("src").value +="	nop"+"\n";
 		document.getElementById("src").value +=""+"\n";
 		document.getElementById("src").value +="val	EQU	1"+"\n";
@@ -1844,12 +1841,11 @@ window.onload = function()
 		document.getElementById("src").value +="main:"+"\n";
 		document.getElementById("src").value +="	ld a,val"+"\n";
 		document.getElementById("src").value +="	ld a,(label)"+"\n";
-		document.getElementById("src").value +="	ld a,(2)"+"\n";
-		document.getElementById("src").value +="	ld a,(3h)"+"\n";
+		document.getElementById("src").value +="	ld a,(10)"+"\n";
+		document.getElementById("src").value +="	ld a,(10h)"+"\n";
 		document.getElementById("src").value +="	jp main"+"\n";
 		document.getElementById("src").value +="label:"+"\n";
 	}
-
 
 	assemble(1);
 	

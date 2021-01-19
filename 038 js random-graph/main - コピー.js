@@ -172,31 +172,6 @@ function update()
 		
 	}
 	
-	{ // ガウス分布表示
-
-		function gauss( x,s  )
-		{
-			let u = 0; 
-			// u: μミュー	平均
-			// s: σシグマ	標準偏差
-			return 	1/(Math.sqrt(2*Math.PI*s))*Math.exp( -((x-u)*(x-u)) / (2*s*s) );
-		}
-		let d_wide = 16;
-		let d_y = html_canvas.height -32;
-		let sc = 32;
-
-		let sigma = 6;
-		print( 10,16*5, "ガウス分布表示:ドット" );
-		print( 10,16*6, "      標準偏差:"+sigma );
-
-		for ( let x = -sc/2 ; x < sc/2 ; x++ )
-		{
-			let y = gauss(x,sigma);
-			let px =     	 (x + sc/2) * d_wide;
-			let py = d_y-    (y       ) * 70*d_wide;
-			fill( px,py,px+1,py+1 );
-		}
-	}
 
 	
 	requestAnimationFrame( update );
