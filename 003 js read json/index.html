@@ -1,42 +1,14 @@
 <!DOCTYPE html>
 <html lang = "ja">
-<head>
-	<meta charset="UTF-8">
-	<title>main</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<body align="center" >
 
-	<H1>main.jsonを読み込んでconsoleに出力</H1>
-	<script>
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', "main.json");
+		<H2>data.jsonを読み込んでconsoleに出力</H2>
+		<script src="main.js"></script>
 
-		xhr.onload = () => 
-		{
-			let json = JSON.parse(xhr.response);
+		 <div id="html_table" align = "center"></div> 
 
-			console.log("json len     :" + json.length);
-
-			for ( let i = 0 ; i < json.length ; i++ )
-			{
-				console.log("NAME     :" + json[i].NAME);
-				console.log("RACE     :" + json[i].RACE);
-				console.log("CLASS    :" + json[i].CLASS);
-				console.log("STRENGTH :" + json[i].STRENGTH);
-				console.log("IQ       :" + json[i].IQ);
-				console.log("PIETY    :" + json[i].PIETY);
-				console.log("VITALITY :" + json[i].VITALITY);
-				console.log("AGILITY  :" + json[i].AGILITY);
-				console.log("LUCK     :" + json[i].LUCK);
-				for ( let j = 0 ; j< json[i].data.length ; j++ )
-				{
-					console.log("data["+j+"]:"+json[i].data[j]);
-				}
-			}
-		}
-
-		xhr.send();
-	</script>
-
-</body>
+	</body>
 </html>

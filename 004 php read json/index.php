@@ -1,6 +1,6 @@
 <?php
-	echo "<H1>PHP でjson読み込み</H1>";
-	
+	echo "<h2>PHP でjson読み込み</h2><br>";
+
 	$url="data.json";
 	$json=file_get_contents($url);
 	$tblChar=json_decode($json,true);
