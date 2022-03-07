@@ -1,11 +1,12 @@
 <?php
-echo "receive(get):";
-$comment=$_GET["comment"];
-echo $comment;
+	echo "receive(get):";
+	$comment=isset( $_GET["comment"] )?$_GET["comment"]:"";
+	echo $comment;
+echo "<br>";
 
-echo "receive(post):";
-$comment=$_POST["comment"];
-echo $comment;
+	echo "receive(post):";
+	$comment=isset( $_POST["comment"] )?$_POST["comment"]:"";
+	echo $comment;
 ?>
 <!DOCTYPE html>
 <html lang = "ja">
@@ -20,7 +21,7 @@ echo $comment;
 	<input type = "submit" value ="GET送信">
 	</form>
 
-	<h1>php POST テスト</h1>
+	<h1>php POST テスト(urlにコマンドが非表示)</h1>
 	<form action = "index.php" method = "post">
 	<input type = "text" name ="comment"><br/>
 	<input type = "submit" value ="POST送信">
