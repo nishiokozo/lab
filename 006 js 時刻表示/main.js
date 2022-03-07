@@ -1,3 +1,4 @@
+"use strict";
 function time()
 {
     let date = new Date();
@@ -44,12 +45,12 @@ function makeTable()
 	let table = document.createElement("table");
 
 	// 表に2次元配列の要素を格納
-	for(i = 0; i < tbl.length; i++)
+	for( let i = 0; i < tbl.length; i++)
 	{
 		rows.push(table.insertRow(-1));  // 行の追加
-		for(j = 0; j < tbl[0].length; j++)
+		for( let j = 0; j < tbl[0].length; j++)
 		{
-			cell=rows[i].insertCell(-1);
+			let cell=rows[i].insertCell(-1);
 			cell.appendChild(document.createTextNode(tbl[i][j]));
 			// 背景色の設定
 			if(i==0)
@@ -63,7 +64,7 @@ function makeTable()
 		}
 	}
 	// 指定したdiv要素に表を加える
-	document.getElementById("table").appendChild(table);
+	document.getElementById("html_table").appendChild(table);
 }
 
 window.onload = function()

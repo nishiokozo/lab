@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>lab</title>
+		<style>
+			.group
+			{
+				display:inline-block; 
+				padding: 6px; 
+				border-radius: 7px; 
+				border:1px solid #aaa;
+				text-align:right;
+			}
+			.readme
+			{
+				display:inline-block; 
+				text-align:center;
+				font-size:12px;
+				font-family:monospace;
+			}
+					
+		</style>	
+	</head>
+	<body align="center" >
+		<h1>web file load & save</h1>
+
+		<input type="button" value="読み込み" onclick="html_load()">
+		<br>
+		<textarea id="html_xmin" rows="10" cols="40" readonly></textarea>
+		<br>
+		<input type="button" value="保存" onclick="html_save()">
+
+		<p>web上のテキストファイルの読み込みとダウンロード</p>
+
+		<script src="main.js"></script>
+
+
+	</body>
+
+
+</html>
+
+
+	
