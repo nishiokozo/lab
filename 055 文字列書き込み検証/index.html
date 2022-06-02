@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+	    <meta charset="utf-8">
+	    <style>
+	    	body
+	    	{
+				text-align:center;
+	    	}
+			table
+			{
+				border:1px solid #aaa;
+				display:inline-block; 	/*ブロック改行しない*/
+				text-align:left;
+
+			}
+			table th
+			{
+				background-color: #aaa;
+			}
+			table td 
+			{
+				border:1px solid #aaa;
+			}
+
+	    </style>
+	</head>
+	<body >
+		<h3>innerHtml/innerText/textContent/valueの違い</H3>
+		<table>
+			<tr><th>	#	</th><th>	書き込み先	</th><th>	書き込み方法	</th><th>	'\n'改行									</th><th>'br'改行										</th><th>結果		</th><tr>
+			<tr><td>	1	</td><td>	textarea	</td><td>	innerHtml		</td><td>	<textarea id="html_1" readonly></textarea>	</td><td>	<textarea id="html_1b" readonly></textarea>	</td><td>\n			</td><tr>
+			<tr><td>	2	</td><td>	textarea	</td><td>	innerText		</td><td>	<textarea id="html_2" readonly></textarea>	</td><td>	<textarea id="html_2b" readonly></textarea>	</td><td>			</td><tr>
+			<tr><td>	3	</td><td>	textarea	</td><td>	textContent		</td><td>	<textarea id="html_3" readonly></textarea>	</td><td>	<textarea id="html_3b" readonly></textarea>	</td><td>\n			</td><tr>
+			<tr><td>	4	</td><td>	textarea	</td><td>	value			</td><td>	<textarea id="html_4" readonly></textarea>	</td><td>	<textarea id="html_4b" readonly></textarea>	</td><td>\n			</td><tr>
+			<tr><td>	5	</td><td>	span		</td><td>	innerHtml		</td><td>	<span id="html_5"></span>					</td><td>	<span id="html_5b"></span>					</td><td>br			</td><tr>
+			<tr><td>	6	</td><td>	span		</td><td>	innerText		</td><td>	<span id="html_6"></span>					</td><td>	<span id="html_6b"></span>					</td><td>\n			</td><tr>
+			<tr><td>	7	</td><td>	span		</td><td>	textContent		</td><td>	<span id="html_7"></span>					</td><td>	<span id="html_7b"></span>					</td><td>			</td><tr>
+			<tr><td>	8	</td><td>	span		</td><td>	value			</td><td>	<span id="html_8"></span>					</td><td>	<span id="html_8b"></span>					</td><td>			</td><tr>
+			<tr><td>	9	</td><td>	input/text	</td><td>	innerHtml		</td><td>	<input type"text" id="html_9">				</td><td>	<input type"text" id="html_9b">				</td><td>			</td><tr>
+			<tr><td>	10	</td><td>	input/text	</td><td>	innerText		</td><td>	<input type"text" id="html_10">				</td><td>	<input type"text" id="html_10b">			</td><td>			</td><tr>
+			<tr><td>	11	</td><td>	input/text	</td><td>	textContent		</td><td>	<input type"text" id="html_11">				</td><td>	<input type"text" id="html_11b">			</td><td>			</td><tr>
+			<tr><td>	12	</td><td>	input/text	</td><td>	value			</td><td>	<input type"text" id="html_12">				</td><td>	<input type"text" id="html_12b">			</td><td>\n			</td><tr>
+		</table>
+		<script src="main.js"></script>
+
+		<br>
+		<br>～概要 2022/06/029～<br>
+
+		タグ(span等)に対してhtmlを書き出すときは、innerHtml<br>		
+		タグ(span等)に対してテキストを書き出すときは、innerText<br>		
+		テキストボックス(textarea,input/text)に対して書き出すときは、value<br>		
+
+	</body>
+</html>

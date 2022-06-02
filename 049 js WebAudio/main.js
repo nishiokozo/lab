@@ -40,8 +40,8 @@ function play_coin(destination, playbackTime)
 	let t0 = playbackTime;
 	let t1 = t0 + duration(180, 16);
 	let t2 = t0 + duration(180, 4) * 3;
-	let si = midi2freq(83);
-	let mi = midi2freq(88);
+	let si = midi2freq(83);	//440 × 2^((83 - 69) ÷ 12) = 987.766602512
+	let mi = midi2freq(88); //440 × 2^((88 - 69) ÷ 12) = 1318.51022765
 	let audioContext = destination.context;
 
 	let oscillator = audioContext.createOscillator();

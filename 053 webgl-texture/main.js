@@ -220,21 +220,21 @@ function refract( I, N, eta )
 	return R;
 }
 
-/*
+
 function mat4(
 		m00,m01,m02,m03,
 		m10,m11,m12,m13,
 		m20,m21,m22,m23,
 		m30,m31,m32,m33)
 {
-	return [
-		m00,m01,m02,m03,
-		m10,m11,m12,m13,
-		m20,m21,m22,m23,
-		m30,m31,m32,m33
+	return [		// 2021/05/06 二次元配列化
+		[m00,m01,m02,m03],
+		[m10,m11,m12,m13],
+		[m20,m21,m22,m23],
+		[m30,m31,m32,m33]
 	];
 }
-*/
+/*
 function mat4(		// 2021/05/06 二次元配列化
 		m00,m01,m02,m03,
 		m10,m11,m12,m13,
@@ -248,6 +248,7 @@ function mat4(		// 2021/05/06 二次元配列化
 		[m30,m31,m32,m33]
 	];
 }
+*/
 /*
 class mat4
 {
@@ -455,6 +456,23 @@ function mrotate( M, th, axis )
 	let o = x*z*ic+y*sn;
 	let p = y*z*ic-x*sn;
 	let q = z*z*ic+cs;
+
+	const	_00=0*4+0;
+	const	_01=0*4+1;
+	const	_02=0*4+2;
+	const	_03=0*4+3;
+	const	_10=1*4+0;
+	const	_11=1*4+1;
+	const	_12=1*4+2;
+	const	_13=1*4+3;
+	const	_20=2*4+0;
+	const	_21=2*4+1;
+	const	_22=2*4+2;
+	const	_23=2*4+3;
+	const	_30=3*4+0;
+	const	_31=3*4+1;
+	const	_32=3*4+2;
+	const	_33=3*4+3;
 
 	return mat4(
 		M[0][0]*i+M[1][0]*j+M[2][0]*k	,	M[0][1]*i+M[1][1]*j+M[2][1]*k	,	M[0][2]*i+M[1][2]*j+M[2][2]*k	,	M[0][3]*i+M[1][3]*j+M[2][3]*k	,

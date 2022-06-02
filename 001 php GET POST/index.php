@@ -1,30 +1,39 @@
 <?php
 	echo "receive(get):";
-	$comment=isset( $_GET["comment"] )?$_GET["comment"]:"";
-	echo $comment;
-echo "<br>";
+	$param=isset( $_GET["param"] )?$_GET["param"]:"";
+	echo $param;
+
+    echo "<br>";
 
 	echo "receive(post):";
-	$comment=isset( $_POST["comment"] )?$_POST["comment"]:"";
-	echo $comment;
+	$param=isset( $_POST["param"] )?$_POST["param"]:"";
+	echo $param;
+
+	echo "<br>";
+	echo "--";
+	echo "<br>";
 ?>
+
 <!DOCTYPE html>
 <html lang = "ja">
-<head>
-	<meta charset="UTF-8">
-	<title>test</title>
-</head>
-<body>
-	<h1>php GET テスト</h1>
-	<form action = "index.php" method = "get">
-	<input type = "text" name ="comment"><br/>
-	<input type = "submit" value ="GET送信">
-	</form>
+	<head>
+		<meta charset="UTF-8">
+		<title>test</title>
+	</head>
+	<body>
+		<h1>php GET テスト</h1>
+		<form action = "index.php" method = "get">
+			param:<input type = "text" name ="param">
+			<input type = "submit" value ="GET送信">
+		(urlにコマンドを付けて送信 2000文字くらいまで。ブラウザによって違う)
+		</form>
+		
+		<br>
 
-	<h1>php POST テスト(urlにコマンドが非表示)</h1>
-	<form action = "index.php" method = "post">
-	<input type = "text" name ="comment"><br/>
-	<input type = "submit" value ="POST送信">
-	</form>
-</body>
+		<h1>php POST テスト</h1>
+		<form action = "index.php" method = "post">
+			param:<input type = "text" name ="param">
+			<input type = "submit" value ="POST送信">
+		</form>
+	</body>
 </html>
